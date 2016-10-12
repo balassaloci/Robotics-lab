@@ -8,7 +8,6 @@ motors = [0,1]
 
 interface.motorEnable(motors[0])
 interface.motorEnable(motors[1])
-interface.startLogging("Logfile001.log")
 
 motorParams = interface.MotorAngleControllerParameters()
 motorParams.maxRotationAcceleration = 6.0
@@ -26,6 +25,7 @@ interface.setMotorAngleControllerParameters(motors[1],motorParams)
 
 while True:
 	angle = float(input("Enter a angle to rotate (in radians): "))
+	interface.startLogging("5_2_angle_%f.log" % angle)
 
 	interface.increaseMotorAngleReferences(motors,[angle,angle])
 
@@ -34,6 +34,7 @@ while True:
 		if motorAngles :
 			print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
 		time.sleep(0.1)
+	interface.stopLogging()
 
 	print "Destination reached!"
 	
