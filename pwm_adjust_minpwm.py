@@ -4,18 +4,17 @@ import time
 interface=brickpi.Interface()
 interface.initialize()
 
-motors = [0,1]
-speed = 12.0
+motors = [1,1]
+speed = 1.0
 
 current_mot = 0
 
 interface.motorEnable(motors[0])
-interface.motorEnable(motors[1])
-#interface.startLogging("minPWM_M0_01.log")
+#interface.motorEnable(motors[1])
 
 motorParams = interface.MotorAngleControllerParameters()
 motorParams.maxRotationAcceleration = 6.0
-motorParams.minPWM = 18.0
+#motorParams.minPWM = 18.0
 motorParams.maxRotationSpeed = 12.0
 motorParams.feedForwardGain = 255/20.0
 motorParams.pidParameters.minOutput = -255
@@ -30,13 +29,11 @@ interface.setMotorAngleControllerParameters(motors[0],motorParams)
 	
 while True:
 	minPWM = float(input("Enter new pwm: "))
+
+	interface.startLogging("minPWM_M%i_%f.log" % (motors[0], minPWM))
 	motorParams.minPWM = minPWM
 	interface.setMotorAngleControllerParameters(motors[0],motorParams)
 	interface.setMotorRotationSpeedReferences([motors[0]],[speed])
-	
-
-	
-
 
 print("Commands are: f: forward\tr:reverse\ts:stop\tspin")
 while True:
