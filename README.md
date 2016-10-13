@@ -10,6 +10,11 @@ Looking at the robot from above, the
 LEFT motor is: PORT A
 RIGHT motor is: PORT B
 
+### MAC of the PI
+Here:
+``` 80:1f:02:af:5e:1c ```
+The RPI IP lookup page is [Here](https://www.doc.ic.ac.uk/~jrj07/robotics/index.cgi)
+
 
 ## Some interesting code we have
 
