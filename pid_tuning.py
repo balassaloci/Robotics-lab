@@ -1,5 +1,6 @@
 import brickpi
 import time
+import os
 
 interface=brickpi.Interface()
 interface.initialize()
@@ -33,13 +34,16 @@ RIGHTMOTORPARAMS.pidParameters.k_i = 0.0
 RIGHTMOTORPARAMS.pidParameters.k_d = 0.0
 
 
-TEST_KP = [i for i in range(550,651,5)]
+TEST_KP = [i for i in range(100,801,50)]
 #TEST_KD = [i for i in range(5,201,5)]
+
+folder = "PID_log_" + time.ctime()
+os.mkdir(folder)
 
 #for test_val in TEST_KD:	
 for test_val in TEST_KP:
 
-	interface.startLogging("PID_log/KP_TUNE_VAL_%03d.log" % (test_val))
+	interface.startLogging(folder + "/KP_TUNE_VAL_%03d.log" % (test_val))
 	#interface.startLogging("PID_log/KP_800_KD_TUNE_VAL%d.log" %(test_val))
 
 	print "Now testing k_p value of %d" %(test_val)
@@ -53,7 +57,7 @@ for test_val in TEST_KP:
 	
 	interface.increaseMotorAngleReferences(motors,[angle,angle])
 
-	time.sleep(5)
+	time.sleep(7)
 
 	interface.stopLogging()
 
