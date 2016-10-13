@@ -25,5 +25,19 @@ Usage:
 python plot_log.py LOGNAME MOTORNO
 ```
 
+# Baby Steps
 
+## PID tuning
+
+### P value
+```Step size: 25
+From 25 to 1000
+minPWM = 18.0```
+
+|Motor |Error square  |Proportional |
+|------|-------------:|------------:|
+|0     |0.236         |600          |
+|1     |0.530         |625          |
+
+Refining, step size: 5
 
