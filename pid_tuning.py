@@ -1,6 +1,5 @@
 import brickpi
 import time
-from math import pi
 
 interface=brickpi.Interface()
 interface.initialize()
@@ -18,7 +17,7 @@ LEFTMOTORPARAMS.maxRotationSpeed = 12.0
 LEFTMOTORPARAMS.feedForwardGain = 255/20.0
 LEFTMOTORPARAMS.pidParameters.minOutput = -255
 LEFTMOTORPARAMS.pidParameters.maxOutput = 255
-LEFTMOTORPARAMS.pidParameters.k_p = 100.0
+LEFTMOTORPARAMS.pidParameters.k_p = 800.0
 LEFTMOTORPARAMS.pidParameters.k_i = 0.0
 LEFTMOTORPARAMS.pidParameters.k_d = 0.0
 
@@ -29,22 +28,22 @@ RIGHTMOTORPARAMS.maxRotationSpeed = 12.0
 RIGHTMOTORPARAMS.feedForwardGain = 255/20.0
 RIGHTMOTORPARAMS.pidParameters.minOutput = -255
 RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
-RIGHTMOTORPARAMS.pidParameters.k_p = 100.0
+RIGHTMOTORPARAMS.pidParameters.k_p = 800.0
 RIGHTMOTORPARAMS.pidParameters.k_i = 0.0
 RIGHTMOTORPARAMS.pidParameters.k_d = 0.0
 
 
+TEST_KP = [i for i in range(550,651,5)]
+#TEST_KD = [i for i in range(5,201,5)]
 
-TEST_KP = [i for i in range(25,1001,25)]
-
-
-	
+#for test_val in TEST_KD:	
 for test_val in TEST_KP:
 
-	interface.startLogging("KP_TUNE_VAL_%d.log" % (test_val))
-	
-	print "Now testing k_p value of %d" %(test_val)
+	interface.startLogging("PID_log/KP_TUNE_VAL_%03d.log" % (test_val))
+	#interface.startLogging("PID_log/KP_800_KD_TUNE_VAL%d.log" %(test_val))
 
+	print "Now testing k_p value of %d" %(test_val)
+	#print "Now testing k_d value of %3d" %(test_val)
 	LEFTMOTORPARAMS.pidParameters.k_p = test_val
 	RIGHTMOTORPARAMS.pidParameters.k_p = test_val
 	interface.setMotorAngleControllerParameters(motors[0],LEFTMOTORPARAMS)
