@@ -11,7 +11,8 @@ LEFT motor is: PORT A
 RIGHT motor is: PORT B
 
 ### MAC of the PI
-```80:1f:02:af:5e:1C```
+Here:
+``` 80:1f:02:af:5e:1C ```
 
 
 ## Some interesting code we have
