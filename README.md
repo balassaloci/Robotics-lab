@@ -12,7 +12,7 @@ RIGHT motor is: PORT B
 
 ### MAC of the PI
 Here:
-``` 80:1f:02:af:5e:1C ```
+``` 80:1f:02:af:5e:1c ```
 
 
 ## Some interesting code we have
