@@ -5,10 +5,8 @@ from math import pi
 interface=brickpi.Interface()
 interface.initialize()
 
-motors = [1,1]
+motors = [0,1]
 speed = 1.0
-
-current_mot = 0
 
 interface.motorEnable(motors[0])
 interface.motorEnable(motors[1])
@@ -55,6 +53,8 @@ for test_val in TEST_KP:
 	angle = 20 #test rotation angle of 20 rads
 	
 	interface.increaseMotorAngleReferences(motors,[angle,angle])
+
+	time.sleep(5)
 
 	interface.stopLogging()
 
