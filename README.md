@@ -30,14 +30,14 @@ python plot_log.py LOGNAME MOTORNO
 ## PID tuning
 
 ### P value
-```Step size: 25
-From 25 to 1000
+```Step size: 100 
+From 100 to 800
 minPWM = 18.0```
 
 |Motor |Error square  |Proportional |
 |------|-------------:|------------:|
-|0     |0.236         |600          |
-|1     |0.530         |625          |
+|0     |0.392         |700          |
+|1     |0.318         |700          |
 
-Refining, step size: 5
+Next step: Refining
 
