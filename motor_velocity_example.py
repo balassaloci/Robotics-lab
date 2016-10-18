@@ -25,14 +25,14 @@ motorParams.pidParameters.k_i = 0.0
 motorParams.pidParameters.k_d = 0.0
 
 interface.setMotorAngleControllerParameters(motors[0],motorParams)
-#interface.setMotorAngleControllerParameters(motors[1],motorParams)
+interface.setMotorAngleControllerParameters(motors[1],motorParams)
 
 	
-while True:
-	minPWM = float(input("Enter new pwm: "))
-	motorParams.minPWM = minPWM
-	interface.setMotorAngleControllerParameters(motors[0],motorParams)
-	interface.setMotorRotationSpeedReferences([motors[0]],[speed])
+#while True:
+#	minPWM = float(input("Enter new pwm: "))
+#	motorParams.minPWM = minPWM
+#	interface.setMotorAngleControllerParameters(motors,motorParams)
+#	interface.setMotorRotationSpeedReferences(motors,[speed,speed])
 	
 
 	
