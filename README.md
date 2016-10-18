@@ -30,7 +30,7 @@ python plot_log.py LOGNAME MOTORNO
 ## PID tuning
 
 ### P value
-```Step size: 100 
+```Step size: 100
 From 100 to 800
 minPWM = 18.0```
 
@@ -39,5 +39,4 @@ minPWM = 18.0```
 |0     |0.392         |700          |
 |1     |0.318         |700          |
 
-Next step: Refining
-
+Period of Oscillation (P_u), for Motor 0 = 0.25425
