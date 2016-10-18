@@ -62,9 +62,9 @@ def turn(angle):
     
 #go_straigth(900)
 turn(90)
-turn(90)
-turn(90)
-turn(90)
+#turn(90)
+#turn(90)
+#turn(90)
 
 interface.terminate()
 
