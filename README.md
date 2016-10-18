@@ -53,3 +53,5 @@ RIGHT MOTOR: KP = KU = 740, start = 165.485, stop = 168.448, cycles = 13, PU = 0
 New KP = 444 (0.6 * KU)
 KI = 3896 (2KP/PU)
 KD = 12.6 (KP*PU / 8)
+
+KI values are way too high, adjust downwards.
