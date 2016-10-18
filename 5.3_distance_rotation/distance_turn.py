@@ -25,12 +25,13 @@ interface.setMotorAngleControllerParameters(motors[0],motorParams)
 interface.setMotorAngleControllerParameters(motors[1],motorParams)
 
 wheel_diam = 5.5
-anti_lean_left = 1.02
+anti_lean_left = 1.01
+anti_lean_right = 0.99
 
 def go_straigth(distance):
     angle = 2 * distance/wheel_diam
     left_angle = angle * anti_lean_left
-    right_angle = angle    
+    right_angle = angle * anti_lean_right
     interface.increaseMotorAngleReferences(motors,[left_angle,right_angle])
     
     while not interface.motorAngleReferencesReached(motors) :
@@ -42,7 +43,7 @@ def go_straigth(distance):
     print("Destination reached")
 
     
-go_straigth(180)
+go_straigth(900)
 
 interface.terminate()
 
