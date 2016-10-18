@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
+#plt.hold(False)
 
 if len(sys.argv) < 3:
     print("USAGE: plot_log.py LOGNAME MOTORID")
