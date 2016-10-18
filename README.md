@@ -40,3 +40,16 @@ minPWM = 18.0```
 |1     |0.318         |700          |
 
 Period of Oscillation (P_u), for Motor 0 = 0.25425
+
+
+LEFT MOTOR: KP = KU = 760, start = 61.1539, stop = 62.9988, cycles = 8, PU = 0.2306 seconds
+
+New KP = 456 (0.6 * KU)
+KI = 3954 (2KP/PU)
+KD = 13.1 (KP*PU / 8)
+
+RIGHT MOTOR: KP = KU = 740, start = 165.485, stop = 168.448, cycles = 13, PU = 0.2279 seconds
+
+New KP = 444 (0.6 * KU)
+KI = 3896 (2KP/PU)
+KD = 12.6 (KP*PU / 8)

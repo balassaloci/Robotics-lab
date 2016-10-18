@@ -1,5 +1,6 @@
 import brickpi
 import time
+import math
 
 interface=brickpi.Interface()
 interface.initialize()
@@ -24,12 +25,13 @@ interface.setMotorAngleControllerParameters(motors[0],motorParams)
 interface.setMotorAngleControllerParameters(motors[1],motorParams)
 
 wheel_diam = 5.5
-wheel_circum = 5.5 * 3.14
+anti_lean_left = 1.02
 
 def go_straigth(distance):
-    angle = 6.28 * distance/wheel_circum
-    
-    interface.increaseMotorAngleReferences(motors,[angle,angle])
+    angle = 2 * distance/wheel_diam
+    left_angle = angle * anti_lean_left
+    right_angle = angle    
+    interface.increaseMotorAngleReferences(motors,[left_angle,right_angle])
     
     while not interface.motorAngleReferencesReached(motors) :
     	motorAngles = interface.getMotorAngles(motors)
@@ -39,9 +41,8 @@ def go_straigth(distance):
 
     print("Destination reached")
 
-def turn_degree(radians):
     
-
+go_straigth(180)
 
 interface.terminate()
 
