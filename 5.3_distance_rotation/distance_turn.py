@@ -45,6 +45,7 @@ def go_straigth(distance):
 shaft_length = 13.6
 
 def turn(angle):
+    angle /= 2
     circumference = shaft_length * math.pi
     turn_size = circumference * angle / 360
     interface.increaseMotorAngleReferences(motors,[turn_size, -turn_size])
