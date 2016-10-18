@@ -5,7 +5,7 @@ import os
 interface=brickpi.Interface()
 interface.initialize()
 
-motors = [0,1]
+motors = [0,3]
 speed = 1.0
 
 interface.motorEnable(motors[0])
@@ -34,7 +34,7 @@ RIGHTMOTORPARAMS.pidParameters.k_i = 0.0
 RIGHTMOTORPARAMS.pidParameters.k_d = 0.0
 
 
-TEST_KP = [i for i in range(100,801,20)]
+TEST_KP = [i for i in range(500,901,20)]
 #TEST_KD = [i for i in range(5,201,5)]
 
 folder = "PID_log_" + "-".join("_".join(time.ctime().split(" ")).split(":"))
