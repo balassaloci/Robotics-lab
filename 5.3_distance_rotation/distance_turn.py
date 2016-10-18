@@ -42,8 +42,29 @@ def go_straigth(distance):
 
     print("Destination reached")
 
+shaft_length = 13.6
+
+def turn(angle):
+    circumference = shaft_length * math.pi
+    turn_size = circumference * angle / 360
+    interface.increaseMotorAngleReferences(motors,[turn_size, -turn_size])
     
-go_straigth(900)
+    while not interface.motorAngleReferencesReached(motors) :
+    	motorAngles = interface.getMotorAngles(motors)
+    	if motorAngles :
+    		print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+    	time.sleep(0.1)
+
+    print("Turn DONE")
+
+
+
+    
+#go_straigth(900)
+turn(90)
+turn(90)
+turn(90)
+turn(90)
 
 interface.terminate()
 
