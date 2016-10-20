@@ -76,8 +76,7 @@ def turn(angle):
 
     print("Turn DONE")
 
-def execute_turn()
-
+def execute_turn():
     while not (interface.motorAngleReferencesReached(motors) or current_sec = 2) :
     	motorAngles = interface.getMotorAngles(motors)
         current_sec = timer()
