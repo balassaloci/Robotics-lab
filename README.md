@@ -8,7 +8,7 @@ Front is always where the two wheels and most of the electronics sit
 ### Motor pins
 Looking at the robot from above, the
 LEFT motor is: PORT A
-RIGHT motor is: PORT B
+RIGHT motor is: PORT D
 
 ### MAC of the PI
 Here:

@@ -48,6 +48,8 @@ def turn(angle):
     angle /= 2
     circumference = shaft_length * math.pi
     turn_size = circumference * angle / 360
+    const_multip = 0.723
+    turn_size *= const_multip
     interface.increaseMotorAngleReferences(motors,[turn_size, -turn_size])
     
     while not interface.motorAngleReferencesReached(motors) :
@@ -62,7 +64,7 @@ def turn(angle):
 
     
 #go_straigth(900)
-turn(90)
+turn(360*3)
 #turn(90)
 #turn(90)
 #turn(90)

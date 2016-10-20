@@ -19,8 +19,8 @@ LEFTMOTORPARAMS.feedForwardGain = 255/20.0
 LEFTMOTORPARAMS.pidParameters.minOutput = -255
 LEFTMOTORPARAMS.pidParameters.maxOutput = 255
 LEFTMOTORPARAMS.pidParameters.k_p = 456.0
-LEFTMOTORPARAMS.pidParameters.k_i = 3954.0
-LEFTMOTORPARAMS.pidParameters.k_d = 13.1
+LEFTMOTORPARAMS.pidParameters.k_i = 950.0
+LEFTMOTORPARAMS.pidParameters.k_d = 30.0
 
 RIGHTMOTORPARAMS = interface.MotorAngleControllerParameters()
 RIGHTMOTORPARAMS.maxRotationAcceleration = 6.0
@@ -30,8 +30,8 @@ RIGHTMOTORPARAMS.feedForwardGain = 255/20.0
 RIGHTMOTORPARAMS.pidParameters.minOutput = -255
 RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
 RIGHTMOTORPARAMS.pidParameters.k_p = 444.0
-RIGHTMOTORPARAMS.pidParameters.k_i = 3896.0
-RIGHTMOTORPARAMS.pidParameters.k_d = 12.6
+RIGHTMOTORPARAMS.pidParameters.k_i = 900.0
+RIGHTMOTORPARAMS.pidParameters.k_d = 30.0
 
 
 #TEST_KP = [i for i in range(600,901,20)]
@@ -53,7 +53,8 @@ for test_val in TEST_ANGLE:
 	#print "Now testing k_d value of %3d" %(test_val)
 	interface.increaseMotorAngleReferences(motors,[test_val,test_val])
 
-	time.sleep(20)
+	#input('press any key to continue')
+	time.sleep(5)	
 
 	interface.stopLogging()
 	#interface.increaseMotorAngleReferences([motors[0]],[0])
