@@ -17,13 +17,12 @@ motorParams.feedForwardGain = 255/20.0
 motorParams.minPWM = 18.0
 motorParams.pidParameters.minOutput = -255
 motorParams.pidParameters.maxOutput = 255
-motorParams.pidParameters.k_p = 500.0
-motorParams.pidParameters.k_i = 200.0
-motorParams.pidParameters.k_d = 100.0
+motorParams.pidParameters.k_p = 100.0
+motorParams.pidParameters.k_i = 0.0
+motorParams.pidParameters.k_d = 0.0
 
 interface.setMotorAngleControllerParameters(motors[0],motorParams)
 interface.setMotorAngleControllerParameters(motors[1],motorParams)
-
 
 wheel_diam = 5.5
 anti_lean_left = 1.01
@@ -52,7 +51,6 @@ def turn(angle):
     const_multip = 0.723
     turn_size *= const_multip
     interface.increaseMotorAngleReferences(motors,[turn_size, -turn_size])
-
     
     while not interface.motorAngleReferencesReached(motors) :
     	motorAngles = interface.getMotorAngles(motors)
@@ -70,19 +68,10 @@ def Right90deg():
     turn(90)
 
     
-#Right90deg()
-go_straigth(40)
-turn(90)
-go_straigth(40)
-turn(90)
-go_straigth(40)
-turn(90)
-go_straigth(40)
-turn(90)
-
-
-
-
+Right90deg()
+#go_straigth(900)
+#turn(360)
+#turn(90)
 #turn(90)
 #turn(90)
 
