@@ -12,16 +12,28 @@ motorid = int(sys.argv[2])
 
 data = np.loadtxt(filename)
 x = data[:,0]
-mot0ref = data[:,1 + 2 * motorid]
-mot0angle = data[:, 2 + 2 * motorid]
-#diffangle = moto0ref - mot0angle
-#x = np.linspace(0, 10)
-plt.plot(x, mot0ref, label='Reference angle')
-plt.plot(x, mot0angle, label='Actual angle')
-#plt.plot(x, diffangle, label='Difference angle')
+leftref = data[:,1]
+leftangle = data[:,2]
+rightref = data[:,3]
+rightangle = data[:,4]
+
+#Zero all data
+x = [i-x[0] for i in x]
+leftref = [i-leftref[0] for i in leftref]
+leftangle = [i-leftangle[0] for i in leftangle]
+rightref = [i-rightref[0] for i in rightref]
+rightangle = [i-rightangle[0] for i in rightangle]
+
+
+plt.plot(x, leftref, label='left ref angle')
+plt.plot(x, leftangle, label='left actual angle')
+
+plt.plot(x, rightref, label='right ref angle')
+plt.plot(x, rightangle, label='right actual angle')
+
 plt.legend()
 
-plt.title(filename + " motor " + str(motorid))
+plt.title(filename)
 
 
 plt.show()
