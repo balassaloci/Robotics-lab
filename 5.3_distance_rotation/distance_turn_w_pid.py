@@ -53,7 +53,7 @@ def go_straight(distance):
 
     print("Destination reached")
 
-"""
+
 shaft_length = 13.6
 
 def turn(angle):
@@ -82,17 +82,17 @@ def Right90deg():
 
 
 #Right90deg()
-go_straight(40)
+#go_straight(40)
 turn(90)
-go_straight(40)
+#go_straight(40)
 turn(90)
-go_straight(40)
+#go_straight(40)
 turn(90)
-go_straight(40)
+#go_straight(40)
 turn(90)
-"""
 
-go_straight(300)
+
+#go_straight(300)
 
 
 
