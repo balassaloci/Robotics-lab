@@ -1,11 +1,8 @@
 import brickpi
 import time
 import os
-<<<<<<< HEAD
 import math
-=======
 import time
->>>>>>> 2b82fc56cbbc4234f5b5455f33e4fe4a887881b9
 
 interface=brickpi.Interface()
 interface.initialize()
