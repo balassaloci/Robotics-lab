@@ -37,7 +37,7 @@ RIGHTMOTORPARAMS.pidParameters.k_d = 60.0
 #TEST_KP = [i for i in range(600,901,20)]
 #TEST_KD = [i for i in range(5,201,5)]
 #TEST_ANGLE = [i for i in range (10,51,10)]
-TEST_PWM = [i for i in range(20,51,10)]
+TEST_PWM = [i for i in range(40,101,10)]
 folder = "PID_log_" + "-".join("_".join(time.ctime().split(" ")).split(":"))
 os.mkdir(folder)
 angle = 20 #test rotation angle of 20 rads
