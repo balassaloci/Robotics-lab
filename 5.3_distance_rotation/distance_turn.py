@@ -61,10 +61,16 @@ def turn(angle):
     print("Turn DONE")
 
 
+def Left90deg():
+    turn(-90)
+
+def Right90deg():
+    turn(90)
 
     
+Right90deg()
 #go_straigth(900)
-turn(360*3)
+#turn(360)
 #turn(90)
 #turn(90)
 #turn(90)

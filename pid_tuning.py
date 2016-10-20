@@ -36,8 +36,8 @@ RIGHTMOTORPARAMS.pidParameters.k_d = 30.0
 
 #TEST_KP = [i for i in range(600,901,20)]
 #TEST_KD = [i for i in range(5,201,5)]
-TEST_ANGLE = [i for i in range (10,51,10)]
-
+#TEST_ANGLE = [i for i in range (10,51,10)]
+TEST_ANGLE = [60,-60,60,-60,60,-60,60]
 folder = "PID_log_" + "-".join("_".join(time.ctime().split(" ")).split(":"))
 os.mkdir(folder)
 angle = 20 #test rotation angle of 20 rads
@@ -45,20 +45,21 @@ angle = 20 #test rotation angle of 20 rads
 interface.setMotorAngleControllerParameters(motors[0],LEFTMOTORPARAMS)
 interface.setMotorAngleControllerParameters(motors[1],RIGHTMOTORPARAMS)
 
+interface.startLogging(folder + "/KP_TUNE_TEST.log")
 for test_val in TEST_ANGLE:
 	#interface.startLogging("PID_log/KP_800_KD_TUNE_VAL%d.log" %(test_val))
-	interface.startLogging(folder + "/KP_TUNE_%d.log" % (test_val))
+	#interface.startLogging(folder + "/KP_TUNE_%d.log" % (test_val))
 
 	print "Now testing angle of %02d radians..." %(test_val)
 	#print "Now testing k_d value of %3d" %(test_val)
 	interface.increaseMotorAngleReferences(motors,[test_val,test_val])
 
 	#input('press any key to continue')
-	time.sleep(5)	
+	time.sleep(3)	
 
-	interface.stopLogging()
+	#interface.stopLogging()
 	#interface.increaseMotorAngleReferences([motors[0]],[0])
-
+interface.stopLogging()
 #for test_val in TEST_KP:
 #	interface.startLogging(folder + "/KP_TUNE_RIGHT_VAL_%03d.log" % (test_val))
 	#interface.startLogging("PID_log/KP_800_KD_TUNE_VAL%d.log" %(test_val))
