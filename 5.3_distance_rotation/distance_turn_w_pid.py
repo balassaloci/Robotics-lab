@@ -1,6 +1,7 @@
 import brickpi
 import time
 import os
+import math
 
 interface=brickpi.Interface()
 interface.initialize()
@@ -83,13 +84,13 @@ def Right90deg():
 
 #Right90deg()
 #go_straight(40)
-turn(90)
+turn(360)
 #go_straight(40)
-turn(90)
+#turn(90)
 #go_straight(40)
-turn(90)
+#turn(90)
 #go_straight(40)
-turn(90)
+#turn(90)
 
 
 #go_straight(300)
