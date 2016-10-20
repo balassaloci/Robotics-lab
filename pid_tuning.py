@@ -20,7 +20,7 @@ LEFTMOTORPARAMS.pidParameters.minOutput = -255
 LEFTMOTORPARAMS.pidParameters.maxOutput = 255
 LEFTMOTORPARAMS.pidParameters.k_p = 456.0
 LEFTMOTORPARAMS.pidParameters.k_i = 950.0
-LEFTMOTORPARAMS.pidParameters.k_d = 30.0
+LEFTMOTORPARAMS.pidParameters.k_d = 60.0
 
 RIGHTMOTORPARAMS = interface.MotorAngleControllerParameters()
 RIGHTMOTORPARAMS.maxRotationAcceleration = 6.0
@@ -31,7 +31,7 @@ RIGHTMOTORPARAMS.pidParameters.minOutput = -255
 RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
 RIGHTMOTORPARAMS.pidParameters.k_p = 444.0
 RIGHTMOTORPARAMS.pidParameters.k_i = 900.0
-RIGHTMOTORPARAMS.pidParameters.k_d = 30.0
+RIGHTMOTORPARAMS.pidParameters.k_d = 60.0
 
 
 #TEST_KP = [i for i in range(600,901,20)]
