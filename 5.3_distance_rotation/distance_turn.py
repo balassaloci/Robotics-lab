@@ -17,9 +17,9 @@ motorParams.feedForwardGain = 255/20.0
 motorParams.minPWM = 18.0
 motorParams.pidParameters.minOutput = -255
 motorParams.pidParameters.maxOutput = 255
-motorParams.pidParameters.k_p = 500.0
-motorParams.pidParameters.k_i = 200.0
-motorParams.pidParameters.k_d = 100.0
+motorParams.pidParameters.k_p = 100.0
+motorParams.pidParameters.k_i = 0.0
+motorParams.pidParameters.k_d = 0.0
 
 interface.setMotorAngleControllerParameters(motors[0],motorParams)
 interface.setMotorAngleControllerParameters(motors[1],motorParams)
@@ -72,13 +72,13 @@ def Right90deg():
     
 #Right90deg()
 go_straigth(40)
-turn(90)
-go_straigth(40)
-turn(90)
-go_straigth(40)
-turn(90)
-go_straigth(40)
-turn(90)
+#turn(90)
+#go_straigth(40)
+#turn(90)
+#go_straigth(40)
+#turn(90)
+#go_straigth(40)
+#turn(90)
 
 
 
