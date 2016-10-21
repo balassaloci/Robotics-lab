@@ -25,7 +25,7 @@ LEFTMOTORPARAMS.pidParameters.k_d = 0.0
 RIGHTMOTORPARAMS = interface.MotorAngleControllerParameters()
 RIGHTMOTORPARAMS.maxRotationAcceleration = 6.0
 RIGHTMOTORPARAMS.minPWM = 18.0
-RIGHTMOTORPARAMS.maxRotationSpeed = 11.7
+RIGHTMOTORPARAMS.maxRotationSpeed = 12.0
 RIGHTMOTORPARAMS.feedForwardGain = 255/20.0
 RIGHTMOTORPARAMS.pidParameters.minOutput = -255
 RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
@@ -34,7 +34,7 @@ RIGHTMOTORPARAMS.pidParameters.k_i = 0.0
 RIGHTMOTORPARAMS.pidParameters.k_d = 0.0
 
 
-TEST_KP = [x for x in range(100,901,100)]
+TEST_KP = [x for x in range(300,901,100)]
 #TEST_KD = [i for i in range(5,201,5)]
 #TEST_KI = [i for i in range(75,126,10)]
 #TEST_ANGLE = [i for i in range (10,51,10)]
@@ -45,18 +45,23 @@ angle = 20 #test rotation angle of 20 rads
 interface.setMotorAngleControllerParameters(motors[0],LEFTMOTORPARAMS)
 interface.setMotorAngleControllerParameters(motors[1],RIGHTMOTORPARAMS)
 
+ratio_diff = 0.02
+right_ratio = 1.00 - ratio_diff/2
+left_ratio = 1.00 + ratio_diff/2
+
 #interface.startLogging(folder + "/KP_TUNE_TEST.log")
 for test_val in TEST_KP:
 #	interface.startLogging("PID_log/KP_TUNE_VAL%d.log" %(test_val))
 	interface.startLogging(folder + "/KP_TUNE_%03d.log" % (test_val))
-	
-#	print "Now testing k_p of %03d..." %(test_val)
+
+    #print "Now testing k_p of %03d..." %(test_val)
 	#print "Now testing k_d value of %3d" %(test_val)
+
 	LEFTMOTORPARAMS.pidParameters.k_p = test_val
 	RIGHTMOTORPARAMS.pidParameters.k_p = test_val
-	interface.increaseMotorAngleReferences(motors,[60,60])
+	interface.increaseMotorAngleReferences(motors,[60 * left_ratio,60 * right_ratio])
 
-	time.sleep(7)	
+	time.sleep(9)
 
 	interface.stopLogging()
 	temp = raw_input('press any key to continue')
