@@ -56,7 +56,7 @@ for test_val in TEST_KP:
 	RIGHTMOTORPARAMS.pidParameters.k_p = test_val
 	interface.increaseMotorAngleReferences(motors,[60,60])
 
-	time.sleep(5)	
+	time.sleep(7)	
 
 	interface.stopLogging()
 	temp = raw_input('press any key to continue')
