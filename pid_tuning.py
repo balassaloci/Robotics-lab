@@ -20,7 +20,7 @@ LEFTMOTORPARAMS.pidParameters.minOutput = -255
 LEFTMOTORPARAMS.pidParameters.maxOutput = 255
 LEFTMOTORPARAMS.pidParameters.k_p = 456.0
 LEFTMOTORPARAMS.pidParameters.k_i = 150.0
-LEFTMOTORPARAMS.pidParameters.K_d = 20.0
+LEFTMOTORPARAMS.pidParameters.K_d = 40.0
 
 RIGHTMOTORPARAMS = interface.MotorAngleControllerParameters()
 RIGHTMOTORPARAMS.maxRotationAcceleration = 6.0
@@ -31,7 +31,7 @@ RIGHTMOTORPARAMS.pidParameters.minOutput = -255
 RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
 RIGHTMOTORPARAMS.pidParameters.k_p = 444.0
 RIGHTMOTORPARAMS.pidParameters.k_i = 150.0
-RIGHTMOTORPARAMS.pidParameters.K_d = 20.0
+RIGHTMOTORPARAMS.pidParameters.K_d = 40.0
 
 
 #TEST_KP = [x for x in range(300,901,100)]
@@ -54,7 +54,7 @@ left_ratio = 1.00 + ratio_diff/2
 for test_val in TEST_KP:
 #	interface.startLogging("PID_log/KP_TUNE_VAL%d.log" %(test_val))
 #	interface.startLogging(folder + "/KP_TUNE_%03d.log" % (test_val))
-    interface.startLogging(folder + "/KD_TUNE_13.log")
+    interface.startLogging(folder + "/KD_TUNE_40.log")
     #print "Now testing k_p of %03d..." %(test_val)
     #print "Now testing k_d value of %3d" %(test_val)
     interface.increaseMotorAngleReferences(motors,[60 * left_ratio,60 * right_ratio])
