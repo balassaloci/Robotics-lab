@@ -11,7 +11,7 @@ speed = 1.0
 interface.motorEnable(motors[0])
 interface.motorEnable(motors[1])
 
-cpid = 0.1
+cpid = 1.0
 
 LEFTMOTORPARAMS = interface.MotorAngleControllerParameters()
 LEFTMOTORPARAMS.maxRotationAcceleration = 6.0
