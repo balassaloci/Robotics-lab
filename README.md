@@ -72,6 +72,9 @@ KI values are way too high, adjust downwards.
 
 Based on these measurements, we have calculated the following covariance matrix. For the method of calculations, please see ```Lab1_5_4_Cov_Matrix.ods```
 
+$$\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}$$
+
+
 |0.2760      |-0.00627  |
 |-0.00627    |0.1675    |
 
