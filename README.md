@@ -55,3 +55,23 @@ KI = 3896 (2KP/PU)
 KD = 12.6 (KP*PU / 8)
 
 KI values are way too high, adjust downwards.
+
+### 5.4 Drive in a square
+|Measurement|X      |Y      |
+|-----------|-------|-------|
+|1          |-0.4   |-0.8   |
+|2          |-0.4   |-0.8   |
+|3          |0.6    |0.55   |
+|4          |0.6    |0.30   |
+|5          |0.6    |0.00   |
+|6          |0.6    |0.00   |
+|7          |0.6    |-0.35  |
+|8          |0.3    |0.00   |
+|9          |0.9    |0.00   |
+|10         |0.45   |-0.25  |
+
+Based on these measurements, we have calculated the following covariance matrix. For the method of calculations, please see ```Lab1_5_4_Cov_Matrix.ods```
+
+|0.2760      |-0.00627  |
+|-0.00627    |0.1675    |
+
