@@ -73,5 +73,5 @@ KI values are way too high, adjust downwards.
 Based on these measurements, we have calculated the following covariance matrix. For the method of calculations, please see ```Lab1_5_4_Cov_Matrix.ods```
 
 
-![alt text](https://github.com/balassaloci/Robotics-lab/master//images/5_4_cov_matrix.png "Covariance matrix")
+![alt text](https://github.com/balassaloci/Robotics-lab/raw/master/images/5_4_cov_matrix.png "Covariance matrix")
 
