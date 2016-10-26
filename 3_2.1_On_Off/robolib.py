@@ -9,6 +9,7 @@ class robolib:
         self.interface.initialize()
 
         self.motors = [0,3]
+        self.touchsensors = [1,0]
         self.speed = 1.0
         self.interface.motorEnable(self.motors[0])
         self.interface.motorEnable(self.motors[1])
@@ -70,7 +71,6 @@ class robolib:
         turn_size *= const_multip
         self.interface.increaseMotorAngleReferences(self.motors,[turn_size, -turn_size])
     
-        
         while not self.interface.motorAngleReferencesReached(self.motors) :
             motorAngles = self.interface.getMotorAngles(self.motors)
             if motorAngles:
@@ -81,12 +81,18 @@ class robolib:
 
     def sense(self):
         touch_port = 1
-        self.interface.sensorEnable(touch_port, brickpi.SensorType.SENSOR_TOUCH)
+        self.interface.sensorEnable(self.touchsensors[0], brickpi.SensorType.SENSOR_TOUCH)
+
+        self.interface.increaseMotorAngleReferences(self.motors,[100,100])
 
         while True:
             result = self.interface.getSensorValue(touch_port)
+
             if result:
                 touched = result[0]
+                if touched:
+                    self.interface.setMotorAngleReferences(self.motors,[0,0])
+                    
                 print(str(touched))
 
             time.sleep(0.1)
