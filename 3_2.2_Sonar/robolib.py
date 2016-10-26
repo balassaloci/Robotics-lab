@@ -128,4 +128,28 @@ class robolib:
                
 
             time.sleep(0.05)
+    
+    def ultrasound(self):
+        port = 2
+        dist = 30
+        tresh = 5
+        self.interface.sensorEnable(port, brickpi.SensorType.SENSOR_ULTRASONIC);
+
+        while True:
+            sensorDist = self.interface.getSensorValue(port)[0]
+            print("Distance: %i" % sensorDist)
+
+            if sensorDist > dist + tresh:
+                straight_vals = [100 * self.left_ratio, 100 * self.right_ratio]
+                self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
+            elif sensorDist < dist - tresh:
+                straight_vals = [-100 * self.left_ratio, -100 * self.right_ratio]
+                self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
+
+            else:
+                self.softstop()
+                
+
+            time.sleep(0.1)
+
 
