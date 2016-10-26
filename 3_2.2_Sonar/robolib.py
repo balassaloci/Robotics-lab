@@ -133,23 +133,43 @@ class robolib:
         port = 2
         dist = 30
         tresh = 5
+        maxSpeed = 12.0
+        prevDists = [0] * 3 
+
         self.interface.sensorEnable(port, brickpi.SensorType.SENSOR_ULTRASONIC);
 
         while True:
             sensorDist = self.interface.getSensorValue(port)[0]
-            print("Distance: %i" % sensorDist)
+            #print("Distance: %i" % sensorDist)
 
-            if sensorDist > dist + tresh:
-                straight_vals = [100 * self.left_ratio, 100 * self.right_ratio]
-                self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
-            elif sensorDist < dist - tresh:
-                straight_vals = [-100 * self.left_ratio, -100 * self.right_ratio]
-                self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
+            if abs(sensorDist - dist) > tresh:
+                speed = (sensorDist - dist) * 0.08
+                
+                if speed > maxSpeed:
+                    speed = maxSpeed
+                elif speed < -maxSpeed:
+                    speed = -maxSpeed
+
+                #print("Speed: %f" % speed)
+
+                deviation = sum([(x - sensorDist)**2 for x in prevDists])/len(prevDists)
+                deviation = math.sqrt(deviation)
+                #print("Deviation: %f " % deviation)
+
+                #if deviation > 100.0 and sensorDist < (dist + tresh):
+                #    print("Triggering softStop")
+                #    self.softstop()
+                #else:
+
+                self.interface.setMotorRotationSpeedReferences(self.motors,[speed,speed])
+
+                del prevDists[0]
+                prevDists.append(sensorDist)
 
             else:
-                self.softstop()
+                #self.softstop()
+                self.interface.setMotorRotationSpeedReferences(self.motors,[0,0])
                 
-
             time.sleep(0.1)
 
 
