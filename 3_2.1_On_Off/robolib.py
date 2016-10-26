@@ -81,10 +81,10 @@ class robolib:
 
     def sense(self):
         touch_port = 1
-        interface.sensorEnable(touch_port, brickpi.SensorType.SENSOR_TOUCH)
+        self.interface.sensorEnable(touch_port, brickpi.SensorType.SENSOR_TOUCH)
 
         while True:
-            result = interface.getSensorValue(touch_port)
+            result = self.interface.getSensorValue(touch_port)
             if result:
                 touched = result[0]
                 print(str(touched))
