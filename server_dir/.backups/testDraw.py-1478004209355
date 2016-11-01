@@ -1,0 +1,75 @@
+import time
+import sys
+import random
+import robolib
+
+bot = robolib.robolib()
+
+    
+bot_pos = [800,800, 180] # (x,y,theta)
+
+c = 0;
+def getRandomX():
+    return (random.randint((c%10)*50, (c%10 + 1)*50)) / 10
+
+def getRandomY():
+    return (random.randint((c%10)*50, (c%10 + 1)*50)) / 10
+
+def getRandomTheta(): 
+    return random.randint(0, 360)
+
+numberOfParticles = 1
+
+line1 = (10, 10, 10, 500) # (x0, y0, x1, y1)
+line2 = (20, 20, 500, 200)  # (x0, y0, x1, y1)
+
+print "drawLine:" + str(line1)
+print "drawLine:" + str(line2)
+
+
+all_particles = []
+def do_square():
+    #bot.straight(10)
+    bot_pos[0] = bot_pos[0] - 200 + getRandomX()
+    bot_pos[1] = bot_pos[1] + getRandomY()    
+    particle = tuple(bot_pos)
+    all_particles.append(particle)
+    print("drawParticles: " + str(all_particles))
+    
+    #bot.straight(10)
+    bot_pos[0] = bot_pos[0] - 200 + getRandomX()
+    bot_pos[1] = bot_pos[1] + getRandomY()    
+    particle = tuple(bot_pos)
+    all_particles.append(particle)
+    print("drawParticles: "  + str(all_particles))
+    
+    #bot.straight(10)
+    bot_pos[0] = bot_pos[0] - 200 + getRandomX()
+    bot_pos[1] = bot_pos[1] + getRandomY()    
+    particle = tuple(bot_pos)
+    all_particles.append(particle)
+    print("drawParticles: "  + str(all_particles))
+    
+    #bot.straight(10)
+    bot_pos[0] = bot_pos[0] - 200 + getRandomX()
+    bot_pos[1] = bot_pos[1] + getRandomY()    
+    particle = tuple(bot_pos)
+    all_particles.append(particle)
+    print("drawParticles: "  + str(all_particles))
+    
+do_square()
+print("All is done")
+
+        
+"""
+while True:
+    # Create a list of particles to draw. This list should be filled by tuples (x, y, theta).
+    for i in range(3):
+        particles = [tuple(bot_pos) for j in range(numberOfParticles)]
+        print "drawParticles:" + str(particles)
+        bot.straight(10)
+        bot_pos[0] -= 10
+        
+        time.sleep(0.25)    
+    c += 1
+"""
