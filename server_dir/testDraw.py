@@ -97,7 +97,33 @@ def do_square():
     all_particles.append(particle)
     print("drawParticles: "  + str(all_particles))
     
-    
+
+
+#function that converts position values in cm into pixel dist
+#current conversion factor is 10cm to 150px 
+def map_draw(point_list):
+	#draw the square frame to initialize
+	#following the 2D coordinate frame specified in the first practical
+	#(0,0) is at the bottom right, with +ve x to the right, +ve y upwards	
+	line1 = (210, 810, 810, 810) # 
+	line2 = (810, 810, 810, 210)  
+	line3 = (810, 210, 210, 210)
+	line4 = (210, 210, 210, 810)
+	print "drawLine:" + str(line1)
+	print "drawLine:" + str(line2)
+	print "drawLine:" + str(line3)
+	print "drawLine:" + str(line4)
+	
+	def pxpos(pos_tuple):
+		px_x = 10 + pos_tuple[0]*150/10
+		px_y = 10 + pos_tuple[1]*150/10
+		return px_x, px_y, pos_tuple[2]
+
+    	print_particles = [pxpos(pos) for pos in point_list]
+
+
+
+
 print("All is done")
 
         
