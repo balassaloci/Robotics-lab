@@ -61,8 +61,8 @@ all_particles = []
 
 
 #constants used to map position to pixels
-CONV = 125.0/100.0 # conversion factor from distanec in mm into pixels
-ORIGIN = (210,610) # origin (0,0), +ve x to the right, +ve y upwards, +ve theta CCW
+CONV = 125.0/100.0
+ORIGIN = (210,610)
 ###################################
 
 # Functions
@@ -76,8 +76,33 @@ def getRandomY():
 def getRandomTheta(): 
     return random.gauss(0.0, 1.0)
 
-# Simulation functions
-###################################
+def map_point(pos):
+    return (ORIGIN[0] + pos[0]*CONV, ORIGIN[1] - pos[1]*CONV, -pos[2])
+
+def map_line(line):
+    return tuple([ORIGIN[i%2]+(-1)**(i%2)* line[i%4]*CONV for i in range(len(line))]) 
+
+#function that converts position values in cm into pixel dist
+#current conversion factor is 100mm to 150px 
+def map_draw(point_list):
+    #draw the square frame to initialize
+    #following the 2D coordinate frame specified in the first practical
+    #(0,0) is at the bottom right, with +ve x to the right, +ve y upwards    
+    line1 = map_line((0,0,400,0)) 
+    line2 = map_line((400,0,400,400))  
+    line3 = map_line((400,400,0,400))
+    line4 = map_line((0,400,0,0))
+
+    print_particles = [map_point(pos) for pos in point_list]
+    print("drawParticles: " + str(print_particles))
+    print "drawLine:" + str(line1)
+    print "drawLine:" + str(line2)
+    print "drawLine:" + str(line3)
+    print "drawLine:" + str(line4)
+
+
+#print "drawLine:" + str(line1)
+#print "drawLine:" + str(line2)
 
 def getStraightLine(botposition, dist):
     x = botposition[0] + (dist + getRandomX()) * cos(radians(botposition[2]))
@@ -90,6 +115,7 @@ def getRotation(botposition, angle):
     y = botposition[1]
     theta = botposition[2] + angle + getRandomTheta()
     return x, y, theta
+
 
 def simulate_square(bot_pos):
     #print("Starting position: " + str(starting_pos))
@@ -106,34 +132,13 @@ def simulate_square(bot_pos):
     all_particles.append(bot_pos)
     return bot_pos
 
-# Mapping functions
-###################################
-
-def mapPoint(pos):
-    return (ORIGIN[0] + pos[0]*CONV, ORIGIN[1] - pos[1]*CONV, -pos[2])
-
-def mapLine(line):
-    return tuple([ORIGIN[i%2]+(-1)**(i%2)* line[i%4]*CONV for i in range(len(line))]) 
-
-def mapDraw(point_list):  
-    line1 = mapLine((0,0,400,0)) 
-    line2 = mapLine((400,0,400,400))  
-    line3 = mapLine((400,400,0,400))
-    line4 = mapLine((0,400,0,0))
-
-    print_particles = [mapPoint(pos) for pos in point_list]
-    print "drawParticles: " + str(print_particles)
-    print "drawLine:" + str(line1)
-    print "drawLine:" + str(line2)
-    print "drawLine:" + str(line3)
-    print "drawLine:" + str(line4)
 
 ###################################
 
 # Main Function
 ###################################
 starting_pos = bot_pos
-for _ in range(400):
+for _ in range(40):
     bot_pos = starting_pos
     for _ in range(4):
         bot_pos = simulate_square(bot_pos)

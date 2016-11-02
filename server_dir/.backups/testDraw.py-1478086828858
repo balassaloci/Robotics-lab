@@ -109,19 +109,19 @@ def simulate_square(bot_pos):
 # Mapping functions
 ###################################
 
-def mapPoint(pos):
+def map_point(pos):
     return (ORIGIN[0] + pos[0]*CONV, ORIGIN[1] - pos[1]*CONV, -pos[2])
 
-def mapLine(line):
+def map_line(line):
     return tuple([ORIGIN[i%2]+(-1)**(i%2)* line[i%4]*CONV for i in range(len(line))]) 
 
-def mapDraw(point_list):  
-    line1 = mapLine((0,0,400,0)) 
-    line2 = mapLine((400,0,400,400))  
-    line3 = mapLine((400,400,0,400))
-    line4 = mapLine((0,400,0,0))
+def map_draw(point_list):  
+    line1 = map_line((0,0,400,0)) 
+    line2 = map_line((400,0,400,400))  
+    line3 = map_line((400,400,0,400))
+    line4 = map_line((0,400,0,0))
 
-    print_particles = [mapPoint(pos) for pos in point_list]
+    print_particles = [map_point(pos) for pos in point_list]
     print "drawParticles: " + str(print_particles)
     print "drawLine:" + str(line1)
     print "drawLine:" + str(line2)

@@ -73,17 +73,14 @@ def navigateTo(measurements, destination):
 
 
 def naviTest():
-    wayPoints = [(200, 150, 0), (200, 200, 180), (150, 200, 0), (150, 150, 0)]
+    wayPoints = [(100, 100, 0), (500, 100, 180), (100, 500, 0), (350, 350, 0)]
     
     measurements = bunchOfEndpoints(bot_pos)
 
-    navigateTo(measurements, bot_pos)    
-    
-    current_pos = bot_pos
-    
+    navigateTo(measurements, bot_pos)
+
     for wayPoint in wayPoints:
-        distance, angle = navigateTo([current_pos], wayPoint)
-        current_pos = wayPoint
+        distance, angle = navigateTo([wayPoint], starting_pos)
         
     print("Navigating back: dist: %f, angle: %f" % (distance, angle))
 
@@ -93,15 +90,13 @@ def bunchOfEndpoints(bot_pos):
     endpoints = []
     
     def simulate_square(bot_pos, save_endpoints = False):
-        bot_pos = getStraightLine(bot_pos, 10)
+        bot_pos = getStraightLine(bot_pos, 100)
         all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
+        bot_pos = getStraightLine(bot_pos, 100)
         all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
+        bot_pos = getStraightLine(bot_pos, 100)
         all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
-        all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
+        bot_pos = getStraightLine(bot_pos, 100)
         all_particles.append(bot_pos)
         bot_pos = getRotation(bot_pos, -90)
         all_particles.append(bot_pos)

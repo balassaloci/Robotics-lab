@@ -69,7 +69,7 @@ class robolib:
         turn_size = circumference * angle / 360
         const_multip = 0.72
         turn_size *= const_multip
-        self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])
+        self.interface.increaseMotorAngleReferences(self.motors,[turn_size, -turn_size])
     
         while not self.interface.motorAngleReferencesReached(self.motors) :
             motorAngles = self.interface.getMotorAngles(self.motors)
@@ -95,7 +95,7 @@ class robolib:
                 self.interface.setMotorAngleReferences(self.motors,[motorAngles[0][0],motorAngles[1][0]])
                 prevAngles = [motorAngles[0][0], motorAngles[1][0]]
                 time.sleep(0.1)
-    
+             
     def sense(self):
         self.interface.sensorEnable(self.touchsensors[0], brickpi.SensorType.SENSOR_TOUCH)
 
@@ -125,7 +125,7 @@ class robolib:
                     self.turn(-45)
 
                 self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
-            
+               
 
             time.sleep(0.05)
     
