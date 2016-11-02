@@ -139,7 +139,7 @@ def simulate_square(bot_pos):
 # Main Function
 ###################################
 starting_pos = bot_pos
-for _ in range(10000):
+for _ in range(1):
     bot_pos = starting_pos
     for _ in range(4):
         bot_pos = simulate_square(bot_pos)

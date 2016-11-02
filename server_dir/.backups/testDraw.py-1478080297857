@@ -77,21 +77,20 @@ def getRandomTheta():
 #function that converts position values in cm into pixel dist
 #current conversion factor is 100mm to 150px 
 def map_draw(point_list):
-    conv = float(150.0/100.0)
+    conv = 150/100
     x0 = 210
     y0 = 710
-    
     #draw the square frame to initialize
     #following the 2D coordinate frame specified in the first practical
     #(0,0) is at the bottom right, with +ve x to the right, +ve y upwards    
-    line1 = (x0, y0, x0 + 400*conv, y0) # 
-    line2 = (x0 + 400*conv, y0,x0 + 400*conv, y0 - 400*conv)  
-    line3 = (x0 + 400*conv, y0 - 400*conv, x0, y0 - 400*conv)
-    line4 = (x0, y0 - 400*conv, x0, y0)
+    line1 = (x0, y0, x0 + 40*conv, y0) # 
+    line2 = (x0 + 40*conv, y0,x0 + 40*conv, y0 - 40*conv)  
+    line3 = (x0 + 40*conv, y0 - 40*conv, x0, y0 - 40*conv)
+    line4 = (x0, y0 - 40*conv, x0, y0)
     
     def pxpos(pos_tuple):
-        px_x = x0 + pos_tuple[0]*conv
-        px_y = y0 + pos_tuple[1]*conv
+        px_x = x0 + pos_tuple[0]
+        px_y = y0 - pos_tuple[1]
         return px_x, px_y, pos_tuple[2]
 
     print_particles = [pxpos(pos) for pos in point_list]
@@ -129,7 +128,7 @@ def simulate_square(bot_pos):
     all_particles.append(bot_pos)
     bot_pos = getStraightLine(bot_pos, 100)
     all_particles.append(bot_pos)
-    bot_pos = getRotation(bot_pos, -90)
+    bot_pos = getRotation(bot_pos, 90)
     all_particles.append(bot_pos)
     return bot_pos
 
@@ -139,7 +138,7 @@ def simulate_square(bot_pos):
 # Main Function
 ###################################
 starting_pos = bot_pos
-for _ in range(10000):
+for _ in range(20):
     bot_pos = starting_pos
     for _ in range(4):
         bot_pos = simulate_square(bot_pos)

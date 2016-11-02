@@ -91,7 +91,7 @@ def map_draw(point_list):
     
     def pxpos(pos_tuple):
         px_x = x0 + pos_tuple[0]*conv
-        px_y = y0 + pos_tuple[1]*conv
+        px_y = y0 - pos_tuple[1]*conv
         return px_x, px_y, pos_tuple[2]
 
     print_particles = [pxpos(pos) for pos in point_list]
@@ -129,7 +129,7 @@ def simulate_square(bot_pos):
     all_particles.append(bot_pos)
     bot_pos = getStraightLine(bot_pos, 100)
     all_particles.append(bot_pos)
-    bot_pos = getRotation(bot_pos, -90)
+    bot_pos = getRotation(bot_pos, 90)
     all_particles.append(bot_pos)
     return bot_pos
 
@@ -139,7 +139,7 @@ def simulate_square(bot_pos):
 # Main Function
 ###################################
 starting_pos = bot_pos
-for _ in range(10000):
+for _ in range(1):
     bot_pos = starting_pos
     for _ in range(4):
         bot_pos = simulate_square(bot_pos)
