@@ -12,7 +12,7 @@ while True:
 	usReading = interface.getSensorValue(port)
 
 	if usReading :
-		print usReading
+		print usReading[0]
 	else:
 		print "Failed US reading"
 

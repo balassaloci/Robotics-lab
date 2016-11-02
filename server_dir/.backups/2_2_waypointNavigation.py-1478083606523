@@ -54,7 +54,7 @@ def navigateTo(measurements, destination):
     
     
     final_x = x + cos(absangle) * distance
-    final_y = y + sin(absangle) * distance
+    final_y = y = sin(absangle) * distance
     
     line1 = (x, y, final_x, final_y)
     print("drawLine:" + str(line1))

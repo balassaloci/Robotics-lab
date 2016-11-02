@@ -38,10 +38,8 @@ def directionTo(current_location, destination):
     return (distance, degrees(angle) - current_location[2], angle)
 
 def navigateTo(measurements, destination):
-    print("Destination: " + str(destination))
-    
     list_size = len(measurements)
-    weights = [1.0/list_size for _ in range(list_size)]
+    weights = [1/list_size for _ in range(list_size)]
     x = sum([measurements[i][0] * weights[i] for i in range(list_size)])
     y = sum([measurements[i][1] * weights[i] for i in range(list_size)])
     t = sum([measurements[i][2] * weights[i] for i in range(list_size)])
@@ -52,9 +50,8 @@ def navigateTo(measurements, destination):
     #bot.turn(angle)
     #bot.straight(distance)
     
-    
-    final_x = x + cos(absangle) * distance
-    final_y = y + sin(absangle) * distance
+    final_x = cos(absangle) * distance
+    final_y = sin(absangle) * distance
     
     line1 = (x, y, final_x, final_y)
     print("drawLine:" + str(line1))
@@ -87,7 +84,7 @@ def bunchOfEndpoints(bot_pos):
         all_particles.append(bot_pos)
     
         if save_endpoints:
-            endpoints.append(bot_pos)
+            all_particles.append(bot_pos)
     
         return bot_pos
     

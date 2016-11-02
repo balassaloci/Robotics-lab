@@ -1,10 +1,10 @@
 import time
 import sys
 import random
-#import robolib
-from math import sin, cos, radians, degrees, atan2, sqrt
+import robolib
+from math import sin, cos, radians, atan2, sqrt
 
-#bot = robolib.robolib()
+bot = robolib.robolib()
 
 bot_pos = [600, 600, 180] # (x,y,theta)
 
@@ -35,31 +35,20 @@ def directionTo(current_location, destination):
     dy = destination[1] - current_location[1]
     angle = atan2(dy, dx)
     distance = sqrt(dx**2 + dy**2)
-    return (distance, degrees(angle) - current_location[2], angle)
+    return (distance, angle - current_location[2])
 
 def navigateTo(measurements, destination):
-    print("Destination: " + str(destination))
-    
     list_size = len(measurements)
-    weights = [1.0/list_size for _ in range(list_size)]
+    weights = [1/list_size for _ in range(list_size)]
     x = sum([measurements[i][0] * weights[i] for i in range(list_size)])
     y = sum([measurements[i][1] * weights[i] for i in range(list_size)])
     t = sum([measurements[i][2] * weights[i] for i in range(list_size)])
 
     current_location = (x, y, t)
-    distance, angle, absangle = directionTo(current_location, destination)
+    distance, angle = directionTo(current_location, destination)
 
-    #bot.turn(angle)
-    #bot.straight(distance)
-    
-    
-    final_x = x + cos(absangle) * distance
-    final_y = y + sin(absangle) * distance
-    
-    line1 = (x, y, final_x, final_y)
-    print("drawLine:" + str(line1))
-    print("Navigating from: %f %f\t\tTO: %f %f" % (x, y, final_x, final_y))
-    
+    bot.turn(angle)
+    bot.straight(distance)
     return distance, angle
 
 
@@ -87,13 +76,12 @@ def bunchOfEndpoints(bot_pos):
         all_particles.append(bot_pos)
     
         if save_endpoints:
-            endpoints.append(bot_pos)
+            all_particles.append(bot_pos)
     
         return bot_pos
     
     
     starting_pos = bot_pos
-    all_particles.append(starting_pos)
     for _ in range(20):
         bot_pos = starting_pos
         bot_pos = simulate_square(bot_pos)

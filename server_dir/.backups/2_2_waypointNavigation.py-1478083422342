@@ -38,7 +38,7 @@ def directionTo(current_location, destination):
     return (distance, degrees(angle) - current_location[2], angle)
 
 def navigateTo(measurements, destination):
-    print("Destination: " + str(destination))
+    print("Measurements: " + str(measurements))
     
     list_size = len(measurements)
     weights = [1.0/list_size for _ in range(list_size)]
@@ -52,9 +52,8 @@ def navigateTo(measurements, destination):
     #bot.turn(angle)
     #bot.straight(distance)
     
-    
-    final_x = x + cos(absangle) * distance
-    final_y = y + sin(absangle) * distance
+    final_x = cos(absangle) * distance
+    final_y = sin(absangle) * distance
     
     line1 = (x, y, final_x, final_y)
     print("drawLine:" + str(line1))
