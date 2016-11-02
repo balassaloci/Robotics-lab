@@ -1,0 +1,94 @@
+import time
+import sys
+import random
+import robolib
+from math import sin, cos, radians
+
+bot = robolib.robolib()
+
+bot_pos = [600, 600, 180] # (x,y,theta)
+
+c = 0;
+def getRandomX():
+    return random.gauss(0.0, 0.1)
+
+def getRandomY():
+    return random.gauss(0.0, 0.1)
+
+def getRandomTheta(): 
+    return random.gauss(0.0, 1.0)
+
+def getStraightLine(botposition, dist):
+    x = botposition[0] + (dist + getRandomX()) * cos(radians(botposition[2]))
+    y = botposition[1] + (dist + getRandomY()) * sin(radians(botposition[2]))
+    theta = botposition[2] + getRandomTheta()
+    return x, y, theta
+
+def getRotation(botposition, angle):
+    x = botposition[0]
+    y = botposition[1]
+    theta = botposition[2] + angle + getRandomTheta()
+    return x, y, theta
+
+def directionTo(current_location, destination):
+    dx = destination[0] - current_location[0]
+    dy = destination[1] - current_location[1]
+    angle = atan2(dy, dx)
+    distance = math.sqrt(dx**2 + dy**2)
+    return (distance, angle - current_location[2])
+
+def navigateTo(measurements, destination):
+    list_size = len(measurements)
+    weights = [1/list_size for _ in range(list_size)]
+    x = sum([measurements[i][0] * weights[i] for i in range(list_size)])
+    y = sum([measurements[i][1] * weights[i] for i in range(list_size)])
+    t = sum([measurements[i][2] * weights[i] for i in range(list_size)])
+
+    current_location = (x, y, t)
+    distance, angle = directionTo(current_location, destination)
+
+    bot.turn(angle)
+    bot.straight(distance)
+    return distance, angle
+
+
+def naviTest():
+    starting_pos = bot_pos
+    measurements = bunchOfEndpoints(bot_pos)
+    distance, angle = navigateTo(measurements, starting_pos)
+    print("Navigating back: dist: %f, angle: %f" % (distance, angle))
+
+
+def bunchOfEndpoints(bot_pos):
+    all_particles = []
+    endpoints = []
+    
+    def simulate_square(bot_pos, save_endpoints = False):
+        bot_pos = getStraightLine(bot_pos, 100)
+        all_particles.append(bot_pos)
+        bot_pos = getStraightLine(bot_pos, 100)
+        all_particles.append(bot_pos)
+        bot_pos = getStraightLine(bot_pos, 100)
+        all_particles.append(bot_pos)
+        bot_pos = getStraightLine(bot_pos, 100)
+        all_particles.append(bot_pos)
+        bot_pos = getRotation(bot_pos, 90)
+        all_particles.append(bot_pos)
+    
+        if save_endpoints:
+            all_particles.append(bot_pos)
+    
+        return bot_pos
+    
+    
+    starting_pos = bot_pos
+    for _ in range(20):
+        bot_pos = starting_pos
+        bot_pos = simulate_square(bot_pos)
+        bot_pos = simulate_square(bot_pos, True)
+
+    print("drawParticles: "  + str(all_particles))
+
+    return endpoints
+
+naviTest()
