@@ -129,9 +129,9 @@ def interactiveNavigation():
     print("Please enter new Wx, Wy coordinates for the bot. Correct format is: Wx,Wy")
     
     while True:
-        wx, wy = input("Enter Wx,Wy: ")
+        wx, wy = input("Enter Wx,Wy: ").split(",")
         
-        new_bot_pos = navigateToWaypoint(measurements, (int(wx), int(wy)))
+        new_bot_pow = navigateToWaypoint(measurements, (int(wx), int(wy)))
         
         measurements = [new_bot_pos]
         

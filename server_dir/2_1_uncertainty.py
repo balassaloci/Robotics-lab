@@ -57,13 +57,11 @@ def getStraightLine(botposition, dist):
     theta = botposition[2] + getRandomTheta()
     return x, y, theta
 
-
 def getRotation(botposition, angle):
     x = botposition[0]
     y = botposition[1]
     theta = botposition[2] - angle + getRandomTheta()
     return x, y, theta
-
 
 def directionTo(current_location, destination):
     dx = destination[0] - current_location[0]
@@ -77,8 +75,7 @@ def directionTo(current_location, destination):
     distance = sqrt(dx**2 + dy**2)
     return (distance, degrees(angle) - current_location[2], angle)
 
-
-def navigateToWaypoint(measurements, destination):
+def navigateTo(measurements, destination):
     print("Destination: " + str(destination))
     
     list_size = len(measurements)
@@ -91,55 +88,22 @@ def navigateToWaypoint(measurements, destination):
     distance, angle, absangle = directionTo(current_location, destination)
 
     after_turn = getRotation(current_location, angle)
-    to_waypoint = getStraightLine(after_turn, distance)
+    back_home = getStraightLine(after_turn, distance)
     
-    final_x = to_waypoint[0] # x + cos(absangle) * distance
-    final_y = to_waypoint[1] #y + sin(absangle) * distance
-    
+    final_x = back_home[0] # x + cos(absangle) * distance
+    final_y = back_home[1] #y + sin(absangle) * distance
     
     line1 = (round(x, 5), round(y, 5), round(final_x, 5), round(final_y, 5))
-    
+    print(str(line1))
     print("drawLine:" + str(line1))
+    
     print("Navigating from: %f %f\t\tTO: %f %f" % (x, y, final_x, final_y))
     
     bot.turn(angle)
-    bot.straight(distance)
+    bot.straight(distance)   
     
-    new_bot_pos = (destination[0], destination[1], absangle)
-        
-    return new_bot_pos
-    
-    
+    return distance, angle
 
-def bunchOfEndpoints(bot_pos):
-    measurements = []
-    for _ in range(20):
-        x = bot_pos[0] + getRandomX()
-        y = bot_pos[1] + getRandomY()
-        t = bot_pos[2] + getRandomTheta()
-        
-        measurements.append((x, y, t))
-    
-    return measurements
-
-
-def interactiveNavigation():
-    measurements = bunchOfEndpoints(bot_pos)
-    
-    print("Please enter new Wx, Wy coordinates for the bot. Correct format is: Wx,Wy")
-    
-    while True:
-        wx, wy = input("Enter Wx,Wy: ")
-        
-        new_bot_pos = navigateToWaypoint(measurements, (int(wx), int(wy)))
-        
-        measurements = [new_bot_pos]
-        
-
-interactiveNavigation()
-
-
-"""
 
 def naviTest():
     wayPoints = [(200, 150, 0), (200, 200, 180), (150, 200, 0), (150, 150, 0)]
@@ -155,11 +119,8 @@ def naviTest():
         current_pos = wayPoint
         
     print("Navigating back: dist: %f, angle: %f" % (distance, angle))
-"""
 
 
-
-"""
 def bunchOfEndpoints(bot_pos):
     all_particles = []
     endpoints = []
@@ -195,8 +156,6 @@ def bunchOfEndpoints(bot_pos):
     print("drawParticles:"  + str(all_particles))
 
     return endpoints
-"""
-
 ###################################
 
 #Main Function

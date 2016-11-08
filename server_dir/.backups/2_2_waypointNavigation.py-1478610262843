@@ -118,7 +118,7 @@ def bunchOfEndpoints(bot_pos):
         y = bot_pos[1] + getRandomY()
         t = bot_pos[2] + getRandomTheta()
         
-        measurements.append((x, y, t))
+        measurements.append(tuple(x, y, t))
     
     return measurements
 
@@ -129,14 +129,11 @@ def interactiveNavigation():
     print("Please enter new Wx, Wy coordinates for the bot. Correct format is: Wx,Wy")
     
     while True:
-        wx, wy = input("Enter Wx,Wy: ")
+        wx, wy = input("Enter Wx,Wy: ").split(",")
         
-        new_bot_pos = navigateToWaypoint(measurements, (int(wx), int(wy)))
+        new_bot_pow = navigateToWaypoint(measurements, tuple(int(wx), int(wy)))
         
         measurements = [new_bot_pos]
-        
-
-interactiveNavigation()
 
 
 """

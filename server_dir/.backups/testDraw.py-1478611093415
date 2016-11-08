@@ -127,8 +127,6 @@ def mapDraw(point_list):
 curr_list = [bot_pos for i in range(numberOfParticles)]
 next_list = []
 
-mapDraw(curr_list)
-
 all_particles += curr_list
 for side in range(4):
     for step in range(4):

@@ -123,37 +123,29 @@ def mapDraw(point_list):
 
 # Main Function
 ###################################
-
-curr_list = [bot_pos for i in range(numberOfParticles)]
+start_list = [bot_pos for i in range(numberOfParticles)]
+all_particles += start_list
+curr_list = [i for i in start_list]
 next_list = []
-
-mapDraw(curr_list)
-
-all_particles += curr_list
 for side in range(4):
     for step in range(4):
         next_list = simStraight(curr_list, 100)
         all_particles += next_list
         curr_list = [i for i in next_list]
-        bot.straight(10)
-        time.sleep(0.5)
-        mapDraw(curr_list)
-        
-    next_list = simRotate(curr_list, 90)
-    all_particles += next_list
-    curr_list = [i for i in next_list]
-    bot.turn(90)
-    time.sleep(0.5)
-    mapDraw(curr_list)
+        mapDraw(all_particles)
+        time.sleep(2)
+        next_list = simRotate(curr_list, 90)
+        all_particles += next_list
+        curr_list = [i for i in next_list]
 
 print("X_diff: %f, Y_diff: %f" % (bot_pos[0] - starting_pos[0], bot_pos[1] - starting_pos[1]))
     
 #print("drawParticles:" + str(all_particles))
 
 #do_square()
-#for i in range(len(all_particles)/100):
-#    mapDraw(all_particles[0:100*i])
-#    time.sleep(2)
+for i in range(len(all_particles)/100):
+    mapDraw(all_particles[0:100*i])
+    time.sleep(2)
 
 print("All is done")
 ###################################

@@ -52,7 +52,7 @@ bot_pos = [0, 0, 0] # [710,810,180]
 
 c = 0;
 
-numberOfParticles = 100
+numberOfParticles = 1
 
 line1 = (10, 10, 10, 500) # (x0, y0, x1, y1)
 line2 = (20, 20, 500, 200)  # (x0, y0, x1, y1)
@@ -74,7 +74,7 @@ def getRandomY():
     return random.gauss(0.0, 0.025)
 
 def getRandomTheta(): 
-    return random.gauss(0.0, 0.25)
+    return random.gauss(0.0, 2)
 
 # Simulation functions
 ###################################
@@ -91,11 +91,20 @@ def getRotation(botposition, angle):
     theta = botposition[2] + angle + getRandomTheta()
     return x, y, theta
 
-def simStraight(pos_list, dist):
-    return [getStraightLine(pos, dist) for pos in pos_list]
-def simRotate(pos_list, angle):
-    return [getRotation(pos, angle) for pos in pos_list]
-
+def simulate_square(bot_pos):
+    #print("Starting position: " + str(starting_pos))
+    
+    bot_pos = getStraightLine(bot_pos, 100)
+    all_particles.append(bot_pos) 
+    bot_pos = getStraightLine(bot_pos, 100)
+    all_particles.append(bot_pos)
+    bot_pos = getStraightLine(bot_pos, 100)
+    all_particles.append(bot_pos)
+    bot_pos = getStraightLine(bot_pos, 100)
+    all_particles.append(bot_pos)
+    bot_pos = getRotation(bot_pos, 90)
+    all_particles.append(bot_pos)
+    return bot_pos
 
 # Mapping functions
 ###################################
@@ -123,37 +132,21 @@ def mapDraw(point_list):
 
 # Main Function
 ###################################
+starting_pos = bot_pos
+for _ in range(10):
+    bot_pos = starting_pos
+    for _ in range(4):
+        bot_pos = simulate_square(bot_pos)
 
-curr_list = [bot_pos for i in range(numberOfParticles)]
-next_list = []
-
-mapDraw(curr_list)
-
-all_particles += curr_list
-for side in range(4):
-    for step in range(4):
-        next_list = simStraight(curr_list, 100)
-        all_particles += next_list
-        curr_list = [i for i in next_list]
-        bot.straight(10)
-        time.sleep(0.5)
-        mapDraw(curr_list)
         
-    next_list = simRotate(curr_list, 90)
-    all_particles += next_list
-    curr_list = [i for i in next_list]
-    bot.turn(90)
-    time.sleep(0.5)
-    mapDraw(curr_list)
-
 print("X_diff: %f, Y_diff: %f" % (bot_pos[0] - starting_pos[0], bot_pos[1] - starting_pos[1]))
     
 #print("drawParticles:" + str(all_particles))
 
 #do_square()
-#for i in range(len(all_particles)/100):
-#    mapDraw(all_particles[0:100*i])
-#    time.sleep(2)
+mapDraw(all_particles)
+
+
 
 print("All is done")
 ###################################

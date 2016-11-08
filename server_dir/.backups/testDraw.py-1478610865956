@@ -127,7 +127,7 @@ def mapDraw(point_list):
 curr_list = [bot_pos for i in range(numberOfParticles)]
 next_list = []
 
-mapDraw(curr_list)
+bot = robolib.robolib()
 
 all_particles += curr_list
 for side in range(4):
@@ -136,15 +136,13 @@ for side in range(4):
         all_particles += next_list
         curr_list = [i for i in next_list]
         bot.straight(10)
-        time.sleep(0.5)
-        mapDraw(curr_list)
+        mapDraw(all_particles)
         
     next_list = simRotate(curr_list, 90)
     all_particles += next_list
     curr_list = [i for i in next_list]
     bot.turn(90)
-    time.sleep(0.5)
-    mapDraw(curr_list)
+    mapDraw(all_particles)
 
 print("X_diff: %f, Y_diff: %f" % (bot_pos[0] - starting_pos[0], bot_pos[1] - starting_pos[1]))
     

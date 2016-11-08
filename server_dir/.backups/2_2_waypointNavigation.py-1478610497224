@@ -131,7 +131,7 @@ def interactiveNavigation():
     while True:
         wx, wy = input("Enter Wx,Wy: ")
         
-        new_bot_pos = navigateToWaypoint(measurements, (int(wx), int(wy)))
+        new_bot_pow = navigateToWaypoint(measurements, (int(wx), int(wy)))
         
         measurements = [new_bot_pos]
         
