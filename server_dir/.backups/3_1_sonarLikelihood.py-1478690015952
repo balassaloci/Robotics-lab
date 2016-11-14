@@ -1,0 +1,125 @@
+import time
+import sys
+import random
+import robolib
+from math import sin, cos, radians, exp, sqrt, pi
+
+# Global Variables
+###################################
+# All distance constants are in mm
+bot = robolib.robolib()
+    
+bot_pos = [0, 0, 0]
+
+numberOfParticles = 100
+all_particles = []
+
+map_list =  [
+            (0,0,0,1680), #OA
+            (0,1680,840,1680), #AB
+            (840,1260,840,2100), #CD
+            (840,2100,1680,2100), #DE
+            (1680,2100,1680,840), #EF
+            (1680,840,2100,840), #FG
+            (2100,840,2100,0), #GH
+            (2100,0,0,0) #HO
+            ]
+
+X_VAR = 0
+Y_VAR = 0
+T_VAR = 0
+
+THETA_THRES = radians(40)
+
+MAX_EST_DIST = 3000
+SONAR_OFFSET = 70
+def SONAR_VAR(dist):
+    return dist* 0.2777777778/400 
+K = 0
+
+#constants used to map position to pixels
+CONV = 30.0/100.0 # conversion factor from distanec in mm into pixels
+ORIGIN = (110,710) # origin (0,0), +ve x to the right, +ve y upwards, +ve theta CCW
+###################################
+
+# Functions
+###################################
+def getRandomX(dist):
+    
+    return random.gauss(0.0, 0.025)
+
+def getRandomY(dist):
+    return random.gauss(0.0, 0.025)
+
+def getRandomTheta(angle): 
+    return random.gauss(0.0, 0.25)
+
+# Simulation functions
+###################################
+
+def getStraightLine(botposition, dist):
+    x = botposition[0] + (dist + getRandomX()) * cos(radians(botposition[2]))
+    y = botposition[1] + (dist + getRandomY()) * sin(radians(botposition[2]))
+    theta = botposition[2] + getRandomTheta()
+    return x, y, theta
+
+def getRotation(botposition, angle):
+    x = botposition[0]
+    y = botposition[1]
+    theta = botposition[2] + angle + getRandomTheta()
+    return x, y, theta
+
+def simStraight(pos_list, dist):
+    return [getStraightLine(pos, dist) for pos in pos_list]
+def simRotate(pos_list, angle):
+    return [getRotation(pos, angle) for pos in pos_list]
+
+def calcEstTruth(pos):
+    dist_list = []
+    for wall in map_list:
+        
+        try:
+            Ax,Ay,Bx,By = wall
+            x,y,t = pos
+            #formula directly from slide 18 of lecture 5
+            m = ((By-Ay)*(Ax-x)-(Bx-Ax)*(Ay-y)) / ((By-Ay)*cos(radians(t))-(Bx-Ax)*sin(radians(t)))
+            
+            b = acos( (cos(radians(t))*(Ay-By)+sin(radians(t))*(Bx-Ax)) / sqrt((Ay-By)**2 + (Bx-Ax)**2) )
+            
+            if m > 0 and m < MAX_EST_DIST and b < :
+                new_pos = (x+m*cos(radians(t)), y+m*sin(radians(t)), t)
+
+                withinX = ((new_pos[0] <= Bx) and (new_pos[0] >= Ax)) or ((new_pos[0] <= Ax) and (new_pos[0] >= Bx))
+                withinY = ((new_pos[1] <= By) and (new_pos[1] >= Ay)) or ((new_pos[1] <= Ay) and (new_pos[1] >= By))
+
+                if withinX and withinY:
+                    dist_list.append(m)
+        except ZeroDivisionError:
+            pass
+        
+    return min(dist_list)
+    
+def calculate_likelihood(pos, z):
+    m = calcEstTruth(pos)
+    p = exp((z-m)**2/(2*SONAR_VAR(m)))/sqrt(2*pi*SONAR_VAR(m)) + K
+    
+    return p
+    
+# Mapping functions
+###################################
+
+def mapPoint(pos):
+    return (ORIGIN[0] + pos[0]*CONV, ORIGIN[1] - pos[1]*CONV, -pos[2])
+
+def mapLine(line):
+    return tuple([ORIGIN[i%2]+(-1)**(i%2)* line[i%4]*CONV for i in range(len(line))]) 
+
+def mapDraw(point_list):
+    #print_particles = [mapPoint(pos) for pos in point_list]
+    #print "drawParticles: " + str(print_particles)
+    for wall in map_list:
+        print "drawLine:" + str(mapLine(wall))
+###################################
+
+mapDraw([])
+#print calculate_likelihood((500,1300,-45), 1838)

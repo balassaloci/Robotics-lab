@@ -44,6 +44,10 @@ class robolib:
         self.anti_lean_left = 1.01
         self.anti_lean_right = 0.99
         self.shaft_length = 13.6
+        
+        self.ultrasonicPort = 2
+        self.interface.sensorEnable(self.ultrasonicPort, brickpi.SensorType.SENSOR_ULTRASONIC);
+
 
     def __del__(self):
         self.interface.terminate()
@@ -80,6 +84,15 @@ class robolib:
         print("Turn DONE")
 
 
+    def readUltrasound(self):
+        usReading = self.interface.getSensorValue(self.ultrasonicPort)
+
+        if usReading:
+            return usReading[0]
+        else:
+            print("Failed to read ultrasound")
+            return -1
+
     def softstop(self):
         self.interface.setMotorPwm(self.motors[0],0)
         self.interface.setMotorPwm(self.motors[1],0)
@@ -96,6 +109,9 @@ class robolib:
                 prevAngles = [motorAngles[0][0], motorAngles[1][0]]
                 time.sleep(0.1)
     
+
+
+
     def sense(self):
         self.interface.sensorEnable(self.touchsensors[0], brickpi.SensorType.SENSOR_TOUCH)
 
