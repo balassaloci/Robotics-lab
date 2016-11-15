@@ -75,10 +75,10 @@ Based on these measurements, we have calculated the following covariance matrix.
 
 # LOG EVERYTHING YOU DO HERE
 
-#### 14th Nov - Piotr, Loci
+##### 14th Nov - Piotr, Loci
 Edited inital particleDataStructures.py to begin implementing likelihoods
 
-#### 15th Nov - Piotr, Bing, Ravi
+##### 15th Nov - Piotr, Bing, Ravi
 Finished Lab 3 ex 2 & ex 3 **in particleData.py**
 
 --------------------------------------------
