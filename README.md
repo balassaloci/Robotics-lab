@@ -83,7 +83,9 @@ Based on these measurements, we have calculated the following covariance matrix.
 
 ## TODOs
 #### Retune PID
-Turn angle and distance turning on carpet
+- [ ] Tune angle turning on carpet
+- [ ] Tune distance moving on carpet
+
 
 --------------------------------------------
 
