@@ -22,7 +22,10 @@ class robolib:
         LEFTMOTORPARAMS.pidParameters.maxOutput = 255
         LEFTMOTORPARAMS.pidParameters.k_p = 456.0 
         LEFTMOTORPARAMS.pidParameters.k_i = 350.0
-        LEFTMOTORPARAMS.pidParameters.K_d = 40.0
+        LEFTMOTORPARAMS.pidParameters.K_d = 35.0
+        #LEFTMOTORPARAMS.pidParameters.k_p = 55.0 
+        #LEFTMOTORPARAMS.pidParameters.k_i = 150.0
+        #LEFTMOTORPARAMS.pidParameters.K_d = 10.0
         RIGHTMOTORPARAMS = self.interface.MotorAngleControllerParameters()
         RIGHTMOTORPARAMS.maxRotationAcceleration = 6.0
         RIGHTMOTORPARAMS.minPWM = 18.0
@@ -32,8 +35,10 @@ class robolib:
         RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
         RIGHTMOTORPARAMS.pidParameters.k_p = 444.0
         RIGHTMOTORPARAMS.pidParameters.k_i = 350.0
-        RIGHTMOTORPARAMS.pidParameters.K_d = 40.0
-
+        RIGHTMOTORPARAMS.pidParameters.K_d = 35.0
+        #RIGHTMOTORPARAMS.pidParameters.k_p = 50.0
+        #RIGHTMOTORPARAMS.pidParameters.k_i = 150.0
+        #RIGHTMOTORPARAMS.pidParameters.K_d = 10.0
         self.interface.setMotorAngleControllerParameters(self.motors[0],LEFTMOTORPARAMS)
         self.interface.setMotorAngleControllerParameters(self.motors[1],RIGHTMOTORPARAMS)
 
@@ -41,8 +46,8 @@ class robolib:
         self.left_ratio  = 1.01
 
         self.wheel_diam = 5.5
-        self.anti_lean_left = 1.01
-        self.anti_lean_right = 0.99
+        self.anti_lean_left = 0.995
+        self.anti_lean_right = 1.005
         self.shaft_length = 13.6
         
         self.ultrasonicPort = 2
@@ -60,8 +65,8 @@ class robolib:
         
         while not self.interface.motorAngleReferencesReached(self.motors) :
             motorAngles = self.interface.getMotorAngles(self.motors)
-            if motorAngles :
-                    print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+            #if motorAngles :
+                    #print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
             time.sleep(0.1)
     
         print("Destination reached")
@@ -71,14 +76,14 @@ class robolib:
         angle /= 2
         circumference = self.shaft_length * math.pi
         turn_size = circumference * angle / 360
-        const_multip = 0.72
+        const_multip = 0.773
         turn_size *= const_multip
         self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])
     
         while not self.interface.motorAngleReferencesReached(self.motors) :
             motorAngles = self.interface.getMotorAngles(self.motors)
-            if motorAngles:
-                    print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+            #if motorAngles:
+                    #print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
             time.sleep(0.1)
     
         print("Turn DONE")

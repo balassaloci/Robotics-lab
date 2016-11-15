@@ -5,6 +5,18 @@
 import time
 import random
 import math
+import brickpi
+
+class robolib:
+    def __init__(self):
+        self.interface=brickpi.Interface()
+        self.interface.initialize()
+
+        self.motors = [0,2]
+        self.interface.motorEnable(self.motors[0])
+        self.interface.motorEnable(self.motors[1])
+        
+bot = robolib()
 
 # Functions to generate some dummy particles data:
 def calcX():

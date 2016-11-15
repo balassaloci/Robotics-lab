@@ -1,0 +1,195 @@
+import brickpi
+import time
+import os
+import math
+
+class robolib:
+    def __init__(self):
+        self.interface=brickpi.Interface()
+        self.interface.initialize()
+
+        self.motors = [0,3]
+        self.touchsensors = [0,1]
+        self.speed = 1.0
+        self.interface.motorEnable(self.motors[0])
+        self.interface.motorEnable(self.motors[1])
+        LEFTMOTORPARAMS = self.interface.MotorAngleControllerParameters()
+        LEFTMOTORPARAMS.maxRotationAcceleration = 6.0
+        LEFTMOTORPARAMS.minPWM = 18.0
+        LEFTMOTORPARAMS.maxRotationSpeed = 12.0
+        LEFTMOTORPARAMS.feedForwardGain = 255/20.0
+        LEFTMOTORPARAMS.pidParameters.minOutput = -255
+        LEFTMOTORPARAMS.pidParameters.maxOutput = 255
+        #LEFTMOTORPARAMS.pidParameters.k_p = 456.0 
+        #LEFTMOTORPARAMS.pidParameters.k_i = 350.0
+        #LEFTMOTORPARAMS.pidParameters.K_d = 40.0
+        LEFTMOTORPARAMS.pidParameters.k_p = 55.0 
+        LEFTMOTORPARAMS.pidParameters.k_i = 150.0
+        LEFTMOTORPARAMS.pidParameters.K_d = 10.0
+        RIGHTMOTORPARAMS = self.interface.MotorAngleControllerParameters()
+        RIGHTMOTORPARAMS.maxRotationAcceleration = 6.0
+        RIGHTMOTORPARAMS.minPWM = 18.0
+        RIGHTMOTORPARAMS.maxRotationSpeed = 12.0
+        RIGHTMOTORPARAMS.feedForwardGain = 255/20.0
+        RIGHTMOTORPARAMS.pidParameters.minOutput = -255
+        RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
+        #RIGHTMOTORPARAMS.pidParameters.k_p = 444.0
+        #RIGHTMOTORPARAMS.pidParameters.k_i = 350.0
+        #RIGHTMOTORPARAMS.pidParameters.K_d = 40.0
+        RIGHTMOTORPARAMS.pidParameters.k_p = 50.0
+        RIGHTMOTORPARAMS.pidParameters.k_i = 150.0
+        RIGHTMOTORPARAMS.pidParameters.K_d = 10.0
+        self.interface.setMotorAngleControllerParameters(self.motors[0],LEFTMOTORPARAMS)
+        self.interface.setMotorAngleControllerParameters(self.motors[1],RIGHTMOTORPARAMS)
+
+        self.right_ratio = 0.99
+        self.left_ratio  = 1.01
+
+        self.wheel_diam = 5.5
+        self.anti_lean_left = 0.99
+        self.anti_lean_right = 1.01
+        self.shaft_length = 13.6
+        
+        self.ultrasonicPort = 2
+        self.interface.sensorEnable(self.ultrasonicPort, brickpi.SensorType.SENSOR_ULTRASONIC);
+
+
+    def __del__(self):
+        self.interface.terminate()
+
+    def straight(self, distance):
+        angle = 2 * distance/self.wheel_diam
+        left_angle = angle * self.anti_lean_left
+        right_angle = angle * self.anti_lean_right
+        self.interface.increaseMotorAngleReferences(self.motors, [left_angle,right_angle])
+        
+        while not self.interface.motorAngleReferencesReached(self.motors) :
+            motorAngles = self.interface.getMotorAngles(self.motors)
+            #if motorAngles :
+                    #print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+            time.sleep(0.1)
+    
+        print("Destination reached")
+    
+    
+    def turn(self, angle):
+        angle /= 2
+        circumference = self.shaft_length * math.pi
+        turn_size = circumference * angle / 360
+        const_multip = 0.773
+        turn_size *= const_multip
+        self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])
+    
+        while not self.interface.motorAngleReferencesReached(self.motors) :
+            motorAngles = self.interface.getMotorAngles(self.motors)
+            #if motorAngles:
+                    #print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+            time.sleep(0.1)
+    
+        print("Turn DONE")
+
+
+    def readUltrasound(self):
+        usReading = self.interface.getSensorValue(self.ultrasonicPort)
+
+        if usReading:
+            return usReading[0]
+        else:
+            print("Failed to read ultrasound")
+            return -1
+
+    def softstop(self):
+        self.interface.setMotorPwm(self.motors[0],0)
+        self.interface.setMotorPwm(self.motors[1],0)
+        time.sleep(1)
+        return
+
+        prevAngles = [0, 0]
+        while True:
+            motorAngles = self.interface.getMotorAngles(self.motors)
+            if motorAngles[0][0] - prevAngles[0] < 0:
+                return
+            else:
+                self.interface.setMotorAngleReferences(self.motors,[motorAngles[0][0],motorAngles[1][0]])
+                prevAngles = [motorAngles[0][0], motorAngles[1][0]]
+                time.sleep(0.1)
+    
+
+
+
+    def sense(self):
+        self.interface.sensorEnable(self.touchsensors[0], brickpi.SensorType.SENSOR_TOUCH)
+
+        self.interface.sensorEnable(self.touchsensors[1], brickpi.SensorType.SENSOR_TOUCH)
+        
+        straight_vals = [100 * self.left_ratio, 100 * self.right_ratio]
+        self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
+
+        time.sleep(0.1)
+        while True:
+            sensor_left = self.interface.getSensorValue(self.touchsensors[0])[0]
+            sensor_right = self.interface.getSensorValue(self.touchsensors[1])[0]
+
+            print("TOUCH: %s\t%s" % (sensor_left, sensor_right))
+            if sensor_left or sensor_right:
+                self.softstop()
+
+                self.straight(-30)
+                if sensor_left and sensor_right:
+                    print("Obstacle on BOTH sensors")
+                    self.turn(90)
+                elif sensor_left:
+                    print("OBSTACE ON THE LEFT")
+                    self.turn(45)
+                else:
+                    print("OBSTACE ON THE RIGHT")
+                    self.turn(-45)
+
+                self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
+            
+
+            time.sleep(0.05)
+    
+    def ultrasound(self):
+        port = 2
+        dist = 30
+        tresh = 5
+        maxSpeed = 12.0
+        prevDists = [0] * 3 
+
+        self.interface.sensorEnable(port, brickpi.SensorType.SENSOR_ULTRASONIC);
+
+        while True:
+            sensorDist = self.interface.getSensorValue(port)[0]
+            #print("Distance: %i" % sensorDist)
+
+            if abs(sensorDist - dist) > tresh:
+                speed = (sensorDist - dist) * 0.08
+                
+                if speed > maxSpeed:
+                    speed = maxSpeed
+                elif speed < -maxSpeed:
+                    speed = -maxSpeed
+
+                #print("Speed: %f" % speed)
+
+                deviation = sum([(x - sensorDist)**2 for x in prevDists])/len(prevDists)
+                deviation = math.sqrt(deviation)
+                #print("Deviation: %f " % deviation)
+
+                #if deviation > 100.0 and sensorDist < (dist + tresh):
+                #    print("Triggering softStop")
+                #    self.softstop()
+                #else:
+
+                self.interface.setMotorRotationSpeedReferences(self.motors,[speed,speed])
+
+                del prevDists[0]
+                prevDists.append(sensorDist)
+
+            else:
+                #self.softstop()
+                self.interface.setMotorRotationSpeedReferences(self.motors,[0,0])
+                
+            time.sleep(0.1)
+
