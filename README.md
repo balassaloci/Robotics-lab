@@ -1,3 +1,4 @@
+<!---
 # Quick references
 
 Some important specs that we have
@@ -10,10 +11,6 @@ Looking at the robot from above, the
 LEFT motor is: PORT A
 RIGHT motor is: PORT D
 
-### MAC of the PI
-Here:
-``` 80:1f:02:af:5e:1c ```
-The RPI IP lookup page is [Here](https://www.doc.ic.ac.uk/~jrj07/robotics/index.cgi)
 
 
 ## Some interesting code we have
@@ -74,4 +71,23 @@ Based on these measurements, we have calculated the following covariance matrix.
 
 
 ![alt text](https://github.com/balassaloci/Robotics-lab/raw/master/images/5_4_cov_matrix.png "Covariance matrix")
+-->
 
+# LOG EVERYTHING YOU DO HERE
+
+## 14th Nov - Piotr, Loci
+Edited inital particleDataStructures.py to begin implementing likelihoods
+
+--------------------------------------------
+
+--------------------------------------------
+
+--------------------------------------------
+## TODOs
+### Retune PID
+Saturation occurs too much!
+
+## MAC of the PI
+Here:
+``` 80:1f:02:af:5e:1c ```
+The RPI IP lookup page is [Here](https://www.doc.ic.ac.uk/~jrj07/robotics/index.cgi)
