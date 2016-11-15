@@ -82,8 +82,10 @@ Based on these measurements, we have calculated the following covariance matrix.
 --------------------------------------------
 
 ## TODOs
-### Retune PID
+#### Retune PID
 Turn angle and distance turning on carpet
+
+--------------------------------------------
 
 ## MAC of the PI
 Here:
