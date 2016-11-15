@@ -1,3 +1,4 @@
+<!---
 # Quick references
 
 Some important specs that we have
@@ -74,4 +75,5 @@ Based on these measurements, we have calculated the following covariance matrix.
 
 
 ![alt text](https://github.com/balassaloci/Robotics-lab/raw/master/images/5_4_cov_matrix.png "Covariance matrix")
+-->
 
