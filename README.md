@@ -79,15 +79,13 @@ Based on these measurements, we have calculated the following covariance matrix.
 Edited inital particleDataStructures.py to begin implementing likelihoods
 
 #### 15th Nov - Piotr, Bing, Ravi
+Finished Lab 3 ex 2 & ex 3
 
 --------------------------------------------
 
---------------------------------------------
-
---------------------------------------------
 ## TODOs
 ### Retune PID
-Saturation occurs too much!
+Turn angle and distance turning on carpet
 
 ## MAC of the PI
 Here:
