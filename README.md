@@ -77,3 +77,7 @@ Based on these measurements, we have calculated the following covariance matrix.
 ![alt text](https://github.com/balassaloci/Robotics-lab/raw/master/images/5_4_cov_matrix.png "Covariance matrix")
 -->
 
+# LOG EVERYTHING YOU DO HERE
+
+## 14th Nov - Piotr, Loci
+Edited inital particleDataStructures.py to begin implementing likelihoods
