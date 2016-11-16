@@ -79,6 +79,10 @@ Based on these measurements, we have calculated the following covariance matrix.
 
 15th Nov - Piotr, Bing, Ravi - Finished Lab 3 ex 2 & ex 3 **in particleData.py**. Video https://www.youtube.com/watch?v=xzzpS3yD7CY&feature=youtu.be
 
+16th Nov - Piotr, Bing, Ravi, Loci
++ Assessed lab 3 (full marks :neckbeard: :bowtie:).
++ Cleaned up server_dir - new file names, old code in old_server_dir (Ravi)
+
 --------------------------------------------
 
 ## TODOs
@@ -92,5 +96,5 @@ Based on these measurements, we have calculated the following covariance matrix.
 
 ## MAC of the PI
 Here:
-``` 80:1f:02:af:5e:1c ```
+> 80:1f:02:af:5e:1c ```
 The RPI IP lookup page is [Here](https://www.doc.ic.ac.uk/~jrj07/robotics/index.cgi)
