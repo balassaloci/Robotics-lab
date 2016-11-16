@@ -9,7 +9,7 @@
 + Cleaned up server_dir - new file names, old code in old_server_dir [Ravi]
 + Wrote sonar turn function (done), and absolute sonar turn function (needs calibration) in server_dir/robolib.py [Ravi]
 + Wrote initial plan for signatures in server_dir/createLocationSignatures.py [Ravi] 
-+ Added 360 degree sonar motor
++ Added 360 degree sonar motor [Piotr]
 
 --------------------------------------------
 
