@@ -91,6 +91,7 @@ Based on these measurements, we have calculated the following covariance matrix.
 - [X] Tune distance moving on carpet
 - [X] Write sonar turn function in robolib.py 
 - [X] Added timer for motor movement, to speed up movement  
+- [ ] Calibrate turn_sonar_abs with relative and absolute angles from the sonar motor 
 - [ ] Add turnable sonar sensor
 - [ ] Write function to create a location signature (characterize_location) in createLocationSignatures.py
 - [ ] Write function to compare two signatures (compare_signatures) in createLocationSignatures.py

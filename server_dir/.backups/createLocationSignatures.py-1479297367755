@@ -4,7 +4,10 @@
 
 import random
 import os
+import time
+import robolib
 import math
+bot = robolib.robolib()
 
 # Location signature class: stores a signature characterizing one location
 class LocationSignature:
@@ -39,7 +42,7 @@ class SignatureContainer():
             return -1;
         else:    
             return n;
-
+        
     # Delete all loc_%%.dat files
     def delete_loc_files(self):
         print "STATUS:  All signature files removed."
@@ -80,36 +83,21 @@ class SignatureContainer():
         
 # FILL IN: spin robot or sonar to capture a signature and store it in ls
 def characterize_location(ls):
-    # TODO: implement
-    # sonar.turnTo(x)
-    for x in range(-180, 181, 10):
-        sonar.turnTo(x)
-        measurement = sonar.measure()
-        ls.sig[x] = measurement
-    
-        
-    
-    #print "TODO:    You should implement the function that captures a signature."
+    print "TODO:    You should implement the function that captures a signature."
     # 1 Turn sonar to -180
     # 2 Turn sonar 10 right
     # 3 Make sonar measurement
     # 4 Add measurement to signature, ls
     # 5 Continue 1 to 4 from -180 to 180
     # 6 Turn to 0
-    #for i in range(len(ls.sig)):
-    #    ls.sig[i] = random.randint(0, 255)
+    for i in range(len(ls.sig)):
+        ls.sig[i] = random.randint(0, 255)
 
-# FILLED IN: compare two signatures
+# FILL IN: compare two signatures
 def compare_signatures(ls1, ls2):
-    diffs = 0.0
-    for x in range(len(ls1.sig)):
-        d = ls1.sig[x] - ls2.sig[x]
-        diffs += d**2
-    
-    return math.sqrt(diffs)
-    #dist = 0
-    #print "TODO:    You should implement the function that compares two signatures."
-    #return dist
+    dist = 0
+    print "TODO:    You should implement the function that compares two signatures."
+    return dist
 
 # This function characterizes the current location, and stores the obtained 
 # signature into the next available file.
