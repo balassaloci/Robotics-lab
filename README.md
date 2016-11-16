@@ -1,3 +1,54 @@
+# LOG EVERYTHING YOU DO HERE
+
+14th Nov - Piotr, Loci - Edited inital particleDataStructures.py to begin implementing likelihoods
+
+15th Nov - Piotr, Bing, Ravi - Finished Lab 3 ex 2 & ex 3 **in particleData.py**. Video https://www.youtube.com/watch?v=xzzpS3yD7CY&feature=youtu.be
+
+16th Nov - Piotr, Bing, Ravi, Loci
++ Assessed lab 3 (full marks :neckbeard: :bowtie:).
++ Cleaned up server_dir - new file names, old code in old_server_dir [Ravi]
++ Wrote sonar turn function (done), and absolute sonar turn function (needs calibration) in server_dir/robolib.py [Ravi]
++ Wrote initial plan for signatures in server_dir/createLocationSignatures.py [Ravi] 
++ Added 360 degree sonar motor
+
+--------------------------------------------
+
+## TODOs
+#### Retune PID
+- [X] Tune angle turning on carpet
+- [X] Tune distance moving on carpet
+- [X] Write sonar turn function in robolib.py 
+- [X] Added timer for motor movement, to speed up movement  
+- [ ] Calibrate turn_sonar_abs with relative and absolute angles from the sonar motor 
+- [ ] Add turnable sonar sensor
+- [ ] Write function to create a location signature (characterize_location) in createLocationSignatures.py
+- [ ] Write function to compare two signatures (compare_signatures) in createLocationSignatures.py
+- [ ] Tune **small** angle (roughly 10 degrees) tuning on carpet
+
+
+--------------------------------------------
+
+## MAC of the PI
+Here:
+
+> 80:1f:02:af:5e:1c 
+
+The RPI IP lookup page is [Here](https://www.doc.ic.ac.uk/~jrj07/robotics/index.cgi)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!---
 # Quick references
 
@@ -73,36 +124,4 @@ Based on these measurements, we have calculated the following covariance matrix.
 ![alt text](https://github.com/balassaloci/Robotics-lab/raw/master/images/5_4_cov_matrix.png "Covariance matrix")
 -->
 
-# LOG EVERYTHING YOU DO HERE
 
-14th Nov - Piotr, Loci - Edited inital particleDataStructures.py to begin implementing likelihoods
-
-15th Nov - Piotr, Bing, Ravi - Finished Lab 3 ex 2 & ex 3 **in particleData.py**. Video https://www.youtube.com/watch?v=xzzpS3yD7CY&feature=youtu.be
-
-16th Nov - Piotr, Bing, Ravi, Loci
-+ Assessed lab 3 (full marks :neckbeard: :bowtie:).
-+ Cleaned up server_dir - new file names, old code in old_server_dir (Ravi)
-
---------------------------------------------
-
-## TODOs
-#### Retune PID
-- [X] Tune angle turning on carpet
-- [X] Tune distance moving on carpet
-- [X] Write sonar turn function in robolib.py 
-- [X] Added timer for motor movement, to speed up movement  
-- [ ] Calibrate turn_sonar_abs with relative and absolute angles from the sonar motor 
-- [ ] Add turnable sonar sensor
-- [ ] Write function to create a location signature (characterize_location) in createLocationSignatures.py
-- [ ] Write function to compare two signatures (compare_signatures) in createLocationSignatures.py
-- [ ] Tune **small** angle (roughly 10 degrees) tuning on carpet
-
-
---------------------------------------------
-
-## MAC of the PI
-Here:
-
-> 80:1f:02:af:5e:1c 
-
-The RPI IP lookup page is [Here](https://www.doc.ic.ac.uk/~jrj07/robotics/index.cgi)
