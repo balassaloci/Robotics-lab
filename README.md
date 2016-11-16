@@ -96,5 +96,7 @@ Based on these measurements, we have calculated the following covariance matrix.
 
 ## MAC of the PI
 Here:
-> 80:1f:02:af:5e:1c ```
+
+> 80:1f:02:af:5e:1c 
+
 The RPI IP lookup page is [Here](https://www.doc.ic.ac.uk/~jrj07/robotics/index.cgi)
