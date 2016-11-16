@@ -12,7 +12,7 @@ bot = robolib.robolib()
 bot_pos = [100, 100, 0] # (x,y,theta)
 
 c = 0;
-LIMIT = 20
+
 ###################################
 
 
@@ -80,8 +80,8 @@ def navigateToWaypoint(start, destination):
     print("Navigating from", start, " to ", destination)
     print("Angle = ", angle)
     bot.turn(angle)
-    if distance > LIMIT:
-        distance = LIMIT
+    if distance > 20:
+        distance = 20
     bot.straight(distance)
     
     new_bot_pos = (start[0] + distance*cos(radians(absangle)), start[1]+ distance*sin(radians(absangle)), absangle)

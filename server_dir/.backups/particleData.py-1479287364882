@@ -208,20 +208,19 @@ def smartNav():
         particles.straight(distance)
         
         particles.update(reading+OFFSET)
-        particles.draw()
-        time.sleep(0.2)
         bot_pos = particles.resample()
+        print bot_pos
         particles.draw()
         
-        if (checkpoint[0]-bot_pos[0])**2 + (checkpoint[1]- bot_pos[1])**2 < 16:
+        if (checkpoint[0]-new_pos[0])**2 + (checkpoint[1]- new_pos[1])**2 < 9:
             ind += 1
             
         
         
         
         
-#nav.bot.turn(1800)
-#nav.bot.straight(100) 
+
+#nav.bot.straight(50) 
 smartNav()
 '''
     #t = 0;

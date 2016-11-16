@@ -213,16 +213,16 @@ def smartNav():
         bot_pos = particles.resample()
         particles.draw()
         
-        if (checkpoint[0]-bot_pos[0])**2 + (checkpoint[1]- bot_pos[1])**2 < 16:
+        if (checkpoint[0]-new_pos[0])**2 + (checkpoint[1]- new_pos[1])**2 < 9:
             ind += 1
             
         
         
         
         
-#nav.bot.turn(1800)
-#nav.bot.straight(100) 
-smartNav()
+nav.bot.turn(720)
+#nav.bot.straight(50) 
+#smartNav()
 '''
     #t = 0;
     z = 20

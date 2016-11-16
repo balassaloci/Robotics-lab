@@ -46,8 +46,8 @@ class robolib:
         self.left_ratio  = 1.01
 
         self.wheel_diam = 5.5
-        self.anti_lean_left = 1.008
-        self.anti_lean_right = 0.992
+        self.anti_lean_left = 0.995
+        self.anti_lean_right = 1.005
         self.shaft_length = 13.6
         
         self.ultrasonicPort = 2
@@ -76,7 +76,7 @@ class robolib:
         angle /= 2
         circumference = self.shaft_length * math.pi
         turn_size = circumference * angle / 360
-        const_multip = 0.76
+        const_multip = 0.765
         turn_size *= const_multip
         self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])
     

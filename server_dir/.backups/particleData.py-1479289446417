@@ -221,8 +221,8 @@ def smartNav():
         
         
 #nav.bot.turn(1800)
-#nav.bot.straight(100) 
-smartNav()
+nav.bot.straight(100) 
+#smartNav()
 '''
     #t = 0;
     z = 20
