@@ -25,7 +25,7 @@ def getRandomX():
 def getRandomY():
     return random.gauss(0.0, 2)
 
-def getRandomTheta(): 
+def getRandomTheta():
     return random.gauss(0.0, 6)
 
 def getStraightLine(botposition, dist):
@@ -54,7 +54,7 @@ def directionTo(current_location, destination):
         turn_angle -= 360
     elif turn_angle < -180:
         turn_angle += 360
-        
+
     print(turn_angle)
 
     distance = sqrt(dx**2 + dy**2)
@@ -63,18 +63,18 @@ def directionTo(current_location, destination):
 
 def navigateToWaypoint(start, destination):
     print("Destination: " + str(destination))
-    
+
     distance, angle, absangle = directionTo(start, destination)
 
     after_turn = getRotation(start, angle)
     to_waypoint = getStraightLine(after_turn, distance)
-    
+
     #final_x = to_waypoint[0] # x + cos(absangle) * distance
     #final_y = to_waypoint[1] #y + sin(absangle) * distance
-    
-    
+
+
     #line1 = (round(x, 5), round(y, 5), round(final_x, 5), round(final_y, 5))
-    
+
     #print("drawLine:" + str(line1))
     #print("Navigating from: %f %f\t\tTO: %f %f" % (x, y, final_x, final_y))
     print("Navigating from", start, " to ", destination)
@@ -83,14 +83,10 @@ def navigateToWaypoint(start, destination):
     if distance > LIMIT:
         distance = LIMIT
     bot.straight(distance)
-    
-    new_bot_pos = (start[0] + distance*cos(radians(absangle)), start[1]+ distance*sin(radians(absangle)), absangle)
-        
-    return new_bot_pos, distance, angle
-    
-    
 
-        
+    new_bot_pos = (start[0] + distance*cos(radians(absangle)), start[1]+ distance*sin(radians(absangle)), absangle)
+
+    return new_bot_pos, distance, angle    
 ###################################
 
 #Commented code RIP
@@ -102,36 +98,36 @@ def bunchOfEndpoints(bot_pos):
         x = bot_pos[0] + getRandomX()
         y = bot_pos[1] + getRandomY()
         t = bot_pos[2] + getRandomTheta()
-        
+
         measurements.append((x, y, t))
-    
+
     return measurements
 
 
 def interactiveNavigation():
     measurements = bunchOfEndpoints(bot_pos)
-    
+
     print("Please enter new Wx, Wy coordinates for the bot. Correct format is: Wx,Wy")
-    
+
     while True:
         wx, wy = input("Enter Wx,Wy: ")
-        
+
         new_bot_pos = navigateToWaypoint(measurements, (int(wx), int(wy)))
-        
+
         measurements = [new_bot_pos]
 def naviTest():
     wayPoints = [(200, 150, 0), (200, 200, 180), (150, 200, 0), (150, 150, 0)]
-    
+
     measurements = bunchOfEndpoints(bot_pos)
 
-    navigateTo(measurements, bot_pos)    
-    
+    navigateTo(measurements, bot_pos)
+
     current_pos = bot_pos
-    
+
     for wayPoint in wayPoints:
         distance, angle = navigateTo([current_pos], wayPoint)
         current_pos = wayPoint
-        
+
     print("Navigating back: dist: %f, angle: %f" % (distance, angle))
 """
 
@@ -141,7 +137,7 @@ def naviTest():
 def bunchOfEndpoints(bot_pos):
     all_particles = []
     endpoints = []
-    
+
     def simulate_square(bot_pos, save_endpoints = False):
         bot_pos = getStraightLine(bot_pos, 10)
         all_particles.append(bot_pos)
@@ -155,20 +151,20 @@ def bunchOfEndpoints(bot_pos):
         all_particles.append(bot_pos)
         bot_pos = getRotation(bot_pos, -90)
         all_particles.append(bot_pos)
-    
+
         if save_endpoints:
             endpoints.append(bot_pos)
-    
+
         return bot_pos
-    
-    
+
+
     starting_pos = bot_pos
     for _ in range(20):
         bot_pos = starting_pos
         all_particles.append(starting_pos)
         bot_pos = simulate_square(bot_pos)
         bot_pos = simulate_square(bot_pos, True)
-    
+
     #mapDraw(all_particles)
     print("drawParticles:"  + str(all_particles))
 
@@ -186,11 +182,11 @@ def bunchOfEndpoints(bot_pos):
         return (ORIGIN[0] + pos[0]*CONV, ORIGIN[1] - pos[1]*CONV, -pos[2])
 
     def mapLine(line):
-        return tuple([ORIGIN[i%2]+(-1)**(i%2)* line[i%4]*CONV for i in range(len(line))]) 
+        return tuple([ORIGIN[i%2]+(-1)**(i%2)* line[i%4]*CONV for i in range(len(line))])
 
-    def mapDraw(point_list):  
-        line1 = mapLine((0,0,400,0)) 
-        line2 = mapLine((400,0,400,400))  
+    def mapDraw(point_list):
+        line1 = mapLine((0,0,400,0))
+        line2 = mapLine((400,0,400,400))
         line3 = mapLine((400,400,0,400))
         line4 = mapLine((0,400,0,0))
 
@@ -202,5 +198,3 @@ def bunchOfEndpoints(bot_pos):
         print "drawLine:" + str(line4)
 """
 ###################################
-
-
