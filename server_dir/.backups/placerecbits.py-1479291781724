@@ -80,12 +80,6 @@ class SignatureContainer():
 # FILL IN: spin robot or sonar to capture a signature and store it in ls
 def characterize_location(ls):
     print "TODO:    You should implement the function that captures a signature."
-    # 1 Turn sonar to -180
-    # 2 Turn sonar 10 right
-    # 3 Make sonar measurement
-    # 4 Add measurement to signature, ls
-    # 5 Continue 1 to 4 from -180 to 180
-    # 6 Turn to 0
     for i in range(len(ls.sig)):
         ls.sig[i] = random.randint(0, 255)
 

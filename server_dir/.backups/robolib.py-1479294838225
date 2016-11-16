@@ -8,7 +8,7 @@ class robolib:
         self.interface=brickpi.Interface()
         self.interface.initialize()
 
-        self.motors = [0,3, X] #TODO: CHANGE FOR SENSOR MOTOR
+        self.motors = [0,3]
         self.touchsensors = [0,1]
         self.speed = 1.0
         self.interface.motorEnable(self.motors[0])
@@ -39,23 +39,9 @@ class robolib:
         #RIGHTMOTORPARAMS.pidParameters.k_p = 50.0
         #RIGHTMOTORPARAMS.pidParameters.k_i = 150.0
         #RIGHTMOTORPARAMS.pidParameters.K_d = 10.0
-        ULTRAMOTORPARAMS = self.interface.MotorAngleControllerParameters()
-        ULTRAMOTORPARAMS.maxRotationAcceleration = 6.0
-        ULTRAMOTORPARAMS.minPWM = 18.0
-        ULTRAMOTORPARAMS.maxRotationSpeed = 12.0
-        ULTRAMOTORPARAMS.feedForwardGain = 255/20.0
-        ULTRAMOTORPARAMS.pidParameters.minOutput = -255
-        ULTRAMOTORPARAMS.pidParameters.maxOutput = 255
-        ULTRAMOTORPARAMS.pidParameters.k_p = 444.0
-        ULTRAMOTORPARAMS.pidParameters.k_i = 350.0
-        ULTRAMOTORPARAMS.pidParameters.K_d = 35.0
-        #ULTRAMOTORPARAMS.pidParameters.k_p = 50.0
-        #ULTRAMOTORPARAMS.pidParameters.k_i = 150.0
-        #ULTRAMOTORPARAMS.pidParameters.K_d = 10.0
         self.interface.setMotorAngleControllerParameters(self.motors[0],LEFTMOTORPARAMS)
         self.interface.setMotorAngleControllerParameters(self.motors[1],RIGHTMOTORPARAMS)
-        self.interface.setMotorAngleControllerParameters(self.motors[1],ULTRAMOTORPARAMS)
-        
+
         self.right_ratio = 0.99
         self.left_ratio  = 1.01
 
@@ -101,20 +87,6 @@ class robolib:
             time.sleep(0.1)
     
         print("Turn DONE")
-    
-     def turn(self, angle):
-        const_multip = 0.76
-        turn_size = angle * const_multip
-        self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])
-    
-        while not self.interface.motorAngleReferencesReached(self.motors) :
-            motorAngles = self.interface.getMotorAngles(self.motors)
-            #if motorAngles:
-                    #print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
-            time.sleep(0.1)
-    
-        print("Ultrasound Turn DONE")
-
 
 
     def readUltrasound(self):

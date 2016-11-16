@@ -9,7 +9,6 @@ import random
 import math
 import helperFunctions as hf
 import waypointnavigation as nav
-import createLocationSignatures as ls
 
 all_waypoints = [(84, 30), (180, 30), (180, 54), (138, 54), (138, 168), (114, 168), (114, 84), (84, 84), (84, 30)]
 ###################################
@@ -208,7 +207,7 @@ def smartNav():
 
 # Main function
 ###################################
-particles = Particles(mymap.getWalls());
+#particles = Particles(mymap.getWalls());
 #nav.bot.turn(1800)
 #nav.bot.straight(100)
 smartNav()
