@@ -89,7 +89,11 @@ Based on these measurements, we have calculated the following covariance matrix.
 #### Retune PID
 - [X] Tune angle turning on carpet
 - [X] Tune distance moving on carpet
-- [ ] Tune **small** angle (roughly 10 degrees) tuning on carpet - **AFTER LAB 3 ASSESSMENT**
+- [ ] Add turnable sonar sensor
+- [ ] Write sonar turn function in robolib.py 
+- [ ] Write function to create a location signature (characterize_location) in createLocationSignatures.py
+- [ ] Write function to compare two signatures (compare_signatures) in createLocationSignatures.py
+- [ ] Tune **small** angle (roughly 10 degrees) tuning on carpet
 
 
 --------------------------------------------
