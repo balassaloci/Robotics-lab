@@ -82,7 +82,7 @@ class robolib:
         left_angle = angle * self.anti_lean_left
         right_angle = angle * self.anti_lean_right
           
-        end_time = distance/13
+        end_time = angle/72
         current_sec = 0
         init_sec = timer()
         time_diff = 0	
