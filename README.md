@@ -11,18 +11,20 @@
 + Wrote initial plan for signatures in server_dir/createLocationSignatures.py [Ravi] 
 + Added 360 degree sonar motor [Piotr]
 
+18th Nov - Piotr, Bing
++ Made motor spin by 360 degrees, in increments of 10 degrees, and create signature of sonar scans from it
++ Created code to store location signature in .dat file
+
 --------------------------------------------
 
 ## TODOs
-#### Retune PID
 - [X] Tune angle turning on carpet
 - [X] Tune distance moving on carpet
 - [X] Write sonar turn function in robolib.py 
 - [X] Added timer for motor movement, to speed up movement  
-- [ ] Calibrate turn_sonar_abs with relative and absolute angles from the sonar motor 
-- [ ] Add turnable sonar sensor
-- [ ] Write function to create a location signature (characterize_location) in createLocationSignatures.py
-- [ ] Write function to compare two signatures (compare_signatures) in createLocationSignatures.py
+- [X] Add turnable sonar sensor
+- [X] Write function to create a location signature (characterize_location) in createLocationSignatures.py
+- [X] Write function to compare two signatures (compare_signatures) in createLocationSignatures.py
 - [ ] Tune **small** angle (roughly 10 degrees) tuning on carpet
 
 
