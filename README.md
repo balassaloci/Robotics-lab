@@ -15,6 +15,18 @@
 + Made motor spin by 360 degrees, in increments of 10 degrees, and create signature of sonar scans from it
 + Created code to store location signature in .dat file
 
+18th Nov - Piotr, Bing, Loci, Ravi
++ Compare signatures reliably
+
+--------------------------------------------
+
+## TODOs for Object Finding Challenge
+- [ ] Work out Velocity control
+- [ ] Characterize location at 1 degree intervals **while** turning motor
+- [ ] Get points of 3 bottles
+- [ ] Add square walls for 3 bottles
+- [ ] Boop bottle and move afterward
+- [ ] Move between bottle positions and get back to Waypoint 1 using MCL
 --------------------------------------------
 
 ## TODOs
@@ -25,7 +37,8 @@
 - [X] Add turnable sonar sensor
 - [X] Write function to create a location signature (characterize_location) in createLocationSignatures.py
 - [X] Write function to compare two signatures (compare_signatures) in createLocationSignatures.py
-- [ ] Tune **small** angle (roughly 10 degrees) tuning on carpet
+
+<!-- - [ ] Tune **small** angle (roughly 10 degrees) tuning on carpet -->
 
 
 --------------------------------------------
