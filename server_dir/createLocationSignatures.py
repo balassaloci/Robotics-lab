@@ -194,8 +194,8 @@ def recognize_location():
         print "STATUS:  Comparing signature " + str(idx) + " with the observed signature."
         ls_read = signatures.read(idx);
 
-        #match = compare_signatures(ls_obs, ls_read)
-        match = compare_angle_invariant(ls_obs.sig, ls_read.sig)
+        match = compare_signatures(ls_obs, ls_read)
+        #match = compare_angle_invariant(ls_obs.sig, ls_read.sig)
         
         if match > 0.85:
             print "Location: waypoint", idx+1, "recognized"

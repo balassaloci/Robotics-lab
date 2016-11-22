@@ -9,6 +9,6 @@ import time
 
 #bot.turn_sonar(360)
 
-#ls.learn_location()
+ls.learn_location()
 
-ls.recognize_location()
+#ls.recognize_location()
