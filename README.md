@@ -27,6 +27,7 @@
 - [ ] Add square walls for 3 bottles
 - [ ] Boop bottle and move afterward
 - [ ] Move between bottle positions and get back to Waypoint 1 using MCL
+
 --------------------------------------------
 
 ## TODOs
