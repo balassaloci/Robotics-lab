@@ -17,12 +17,12 @@
 
 18th Nov - Piotr, Bing, Loci, Ravi
 + Compare signatures reliably
++ Create and compare a signature to a known signature **while** turning, at an n degree interval
 
 --------------------------------------------
 
 ## TODOs for Object Finding Challenge
-- [ ] Work out Velocity control
-- [ ] Characterize location at 1 degree intervals **while** turning motor
+- [X] Characterize location at n degree intervals **while** turning motor
 - [ ] Get points of 3 bottles
 - [ ] Add square walls for 3 bottles
 - [ ] Boop bottle and move afterward
