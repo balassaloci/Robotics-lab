@@ -87,80 +87,25 @@ class SignatureContainer():
         
 
 def characterize_location(ls):
-    ls.sig = bot.turn_poll(3)
-
-    #step = 360/len(ls.sig)
-    #for i in range(len(ls.sig)):
-    #    reading = sum([float(bot.readUltrasound()) for j in range(3)])/3
-    #    ls.sig[i] = reading
-    #    print "angle:", i*step, ",depth:", reading
-    #    bot.turn_sonar(step)
-    #bot.turn_sonar(-360)
-
+    step = 360/len(ls.sig)
+    for i in range(len(ls.sig)):
+        reading = sum([float(bot.readUltrasound()) for j in range(3)])/3
+        ls.sig[i] = reading
+        print "angle:", i*step, ",depth:", reading
+        bot.turn_sonar(step)
+    bot.turn_sonar(-360)
 
 
 def compare_signatures(ls1, ls2):
-    counter = 0.0
+    counter = 0
     
     for x in range(len(ls1.sig)):
         d = ls1.sig[x] - ls2.sig[x]
-        if abs(d) < 3:
+        if d < 5:
             counter += 1 
     
-    return counter/len(ls1.sig)
+    return float(counter)/len(ls1.sig)
 
-def get_hist(data, resolution):
-    max = 255.0
-    min = 0.0
-
-    hist = [0.0] * (resolution + 1)
-
-    for x in data:
-        mapped = (x - min) / max
-        slot = int(mapped * resolution)
-        if slot < 0 or slot > resolution:
-            print("SLOT OUT OF RANGE: %i, x is: %f" % (slot, x))
-        else:
-            hist[slot] += 1
-
-    return hist
-
-def match_hist(a, b):
-    diffs = 0.0
-    dcount = 0.0
-    d2count = 0.0
-    d3count = 0.0
-
-    for x in range(len(a)):
-        d = a[x] - b[x]
-
-        if abs(d) <= a[x] * 0.2:
-            dcount += 1.0
-        if abs(d) <= a[x] * 0.1:
-            d2count += 1.0
-        if abs(d) <= a[x] * 0.05:
-            d3count += 1.0
- 
-        #d3count += 1.0
-        diffs += d**2
-
-    rms_err = math.sqrt(diffs)
-
-    pmatch = dcount / float(len(a))
-    p2match = d2count / float(len(a))
-    p3match = d3count / float(len(a))
-
-    print(pmatch, p2match, p3match)
-
-    return p2match
-
-def compare_angle_invariant(ls1, ls2):
-    resolution = 20
-    a = get_hist(ls1, resolution)
-    b = get_hist(ls2, resolution)
-    err = match_hist(a, b)
-    return err
-    
 
 # This function characterizes the current location, and stores the obtained 
 # signature into the next available file.
@@ -193,13 +138,11 @@ def recognize_location():
     for idx in range(signatures.size):
         print "STATUS:  Comparing signature " + str(idx) + " with the observed signature."
         ls_read = signatures.read(idx);
-
-        #match = compare_signatures(ls_obs, ls_read)
-        match = compare_angle_invariant(ls_obs.sig, ls_read.sig)
+        match = compare_signatures(ls_obs, ls_read)
         
         if match > 0.85:
             print "Location: waypoint", idx+1, "recognized"
-        print "percent match within 3cm: %0.2f" % (match)
+            print "\% match within 5cm:%0.2f" % (match)
 
 
 # Prior to starting learning the locations, it should delete files from previous

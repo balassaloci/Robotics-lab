@@ -1,0 +1,14 @@
+import robolib as rb
+import createLocationSignatures as ls
+import time
+
+#print sum([float(bot.readUltrasound()) for i in range(10)])/10.0
+#bot.turn(90)
+
+#rint time.localtime(time.time())
+
+#bot.turn_sonar(360)
+
+#ls.learn_location()
+
+ls.recognize_location()

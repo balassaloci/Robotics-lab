@@ -1,0 +1,15 @@
+import robolib as rb
+import time
+
+bot = rb.robolib()
+
+#print sum([float(bot.readUltrasound()) for i in range(10)])/10.0
+#bot.turn(90)
+
+#rint time.localtime(time.time())
+
+bot.turn_sonar(180)
+for i in range(35):
+    bot.turn_sonar(-10)
+    print "angle:", 180-i*10, "depth:", sum([float(bot.readUltrasound()) for i in range(10)])/10.0
+bot.turn_sonar(170)

@@ -1,0 +1,5 @@
+import robolib as rb
+
+bot = rb.robolib()
+
+print sum([float(bot.readUltrasound()) for i in range(10)])/10.0

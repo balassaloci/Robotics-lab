@@ -4,8 +4,8 @@ import os
 import math
 import time
 def timer():
-    now = time.time()
-    return now
+    now = time.localtime(time.time())
+    return now[5]
 
 class robolib:
     def __init__(self):
@@ -14,12 +14,11 @@ class robolib:
 
         self.motors = [0,3] 
         #TODO: CHANGE FOR SENSOR MOTOR
-        self.sonarmotor = [2]
+        self.sonarmotor = [1]
         self.touchsensors = [2,3]
         self.speed = 1.0
         self.interface.motorEnable(self.motors[0])
         self.interface.motorEnable(self.motors[1])
-        self.interface.motorEnable(self.sonarmotor[0])
         LEFTMOTORPARAMS = self.interface.MotorAngleControllerParameters()
         LEFTMOTORPARAMS.maxRotationAcceleration = 6.0
         LEFTMOTORPARAMS.minPWM = 18.0
@@ -53,15 +52,15 @@ class robolib:
         ULTRAMOTORPARAMS.feedForwardGain = 255/20.0
         ULTRAMOTORPARAMS.pidParameters.minOutput = -255
         ULTRAMOTORPARAMS.pidParameters.maxOutput = 255
-        ULTRAMOTORPARAMS.pidParameters.k_p = 100.0
+        ULTRAMOTORPARAMS.pidParameters.k_p = 444.0
         ULTRAMOTORPARAMS.pidParameters.k_i = 350.0
-        ULTRAMOTORPARAMS.pidParameters.K_d = 15.0
+        ULTRAMOTORPARAMS.pidParameters.K_d = 35.0
         #ULTRAMOTORPARAMS.pidParameters.k_p = 50.0
         #ULTRAMOTORPARAMS.pidParameters.k_i = 150.0
         #ULTRAMOTORPARAMS.pidParameters.K_d = 10.0
         self.interface.setMotorAngleControllerParameters(self.motors[0],LEFTMOTORPARAMS)
         self.interface.setMotorAngleControllerParameters(self.motors[1],RIGHTMOTORPARAMS)
-        self.interface.setMotorAngleControllerParameters(self.sonarmotor[0],ULTRAMOTORPARAMS)
+        self.interface.setMotorAngleControllerParameters(self.motors[1],ULTRAMOTORPARAMS)
         
         self.right_ratio = 0.99
         self.left_ratio  = 1.01
@@ -98,75 +97,52 @@ class robolib:
                 time_diff += 60
     
         print("Destination reached")
-
-        
+    
+    
     def turn(self, angle):
+        
         angle /= 2
         circumference = self.shaft_length * math.pi
         turn_size = circumference * angle / 360
         const_multip = 0.76
         turn_size *= const_multip
-        self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])
+        
+        end_time = angle/72
+        current_sec = 0
+        init_sec = timer()
+        time_diff = 0    
+        
+        self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])    
+        while not (self.interface.motorAngleReferencesReached(self.motors) or time_diff  == end_time) :
+            motorAngles = self.interface.getMotorAngles(self.motors)
+            current_sec = timer()
+            time.sleep(0.1)
+            time_diff = current_sec-init_sec
+            if time_diff < 0 :
+                time_diff += 60
+    
+        print("Turn DONE")
+    
+    def turn_sonar(self, angle):
+        const_multip = 0.76
+        turn_size = angle * const_multip
 
         end_time = angle/72
         current_sec = 0
         init_sec = timer()
-        time_diff = 0   
-        
-        while not (self.interface.motorAngleReferencesReached(self.motors) or time_diff  == end_time) :
-            motorAngles = self.interface.getMotorAngles(self.motors)
-            if motorAngles:
-                print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
-            time.sleep(0.1)
+        time_diff = 0    
+
+        self.interface.increaseMotorAngleReferences(self.sonarmotor,[angle])
+        while not (self.interface.motorAngleReferencesReached(self.sonarmotor)):# or time_diff  == end_time) :
+            motorAngles = self.interface.getMotorAngles(self.sonarmotor)
             current_sec = timer()
-            time_diff = current_sec-init_sec
-
-
-        print("Turn DONE")
-
-    def turn_poll(self, angledist):
-        radist = angledist * 0.0174533
-        results = []
-
-        a = self.interface.getMotorAngles(self.sonarmotor)[0][0]
-        self.interface.increaseMotorAngleReferences(self.sonarmotor, [-7.0])
-        mcount = 0
-
-        while not self.interface.motorAngleReferencesReached(self.sonarmotor):
-            na = self.interface.getMotorAngles(self.sonarmotor)[0][0]
-            if abs(na - a) > radist and angledist * len(results) < 360:
-                measure = self.readUltrasound()
-                results.append(measure)
-                mcount += 1
-                time.sleep(0.01)
-                a = na
-
-        self.interface.increaseMotorAngleReferences(self.sonarmotor, [7.0])
-
-        while not self.interface.motorAngleReferencesReached(self.sonarmotor):
-            time.sleep(0.01)
-
-        return results
-        
-    def turn_sonar(self, angle):
-        const_multip = 1
-        turn_size = const_multip * math.radians(angle)
-        self.interface.increaseMotorAngleReferences(self.sonarmotor,[-turn_size])
-        
-        end_time = abs(float(angle)/10)
-        current_sec = 0
-        init_sec = timer()
-        time_diff = 0  
-
-        while not (self.interface.motorAngleReferencesReached(self.sonarmotor) or time_diff  >= end_time):
             time.sleep(0.1)
-            current_sec = timer()
             time_diff = current_sec-init_sec
+            if time_diff < 0 :
+                time_diff += 60
 
+        print("Ultrasound Turn DONE")       
             
-        print("Sonar turn DONE")
-
-        
     def turn_sonar_abs(self, absangle):
         const_multip = 0.76
         relangle = 100 #TODO - CALIBRATE relangle from absangle

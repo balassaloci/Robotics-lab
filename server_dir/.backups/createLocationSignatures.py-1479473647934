@@ -78,89 +78,33 @@ class SignatureContainer():
             for i in range(len(ls.sig)):
                 s = f.readline()
                 if (s != ''):
-                    ls.sig[i] = float(s)
+                    ls.sig[i] = int(s)
             f.close();
         else:
             print "WARNING: Signature does not exist."
         
         return ls
         
-
+# FILL IN: spin robot or sonar to capture a signature and store it in ls
 def characterize_location(ls):
-    ls.sig = bot.turn_poll(3)
+    for i in range(36):
+        reading = sum([float(bot.readUltrasound()) for i in range(10)])/10
+        ls.sig[i] = reading
+        print "angle:", i*10, ",depth:", reading
+        bot.turn_sonar(10)
+    bot.turn_sonar(-360)
 
-    #step = 360/len(ls.sig)
-    #for i in range(len(ls.sig)):
-    #    reading = sum([float(bot.readUltrasound()) for j in range(3)])/3
-    #    ls.sig[i] = reading
-    #    print "angle:", i*step, ",depth:", reading
-    #    bot.turn_sonar(step)
-    #bot.turn_sonar(-360)
-
-
-
+# FILLED IN: compare two signatures
 def compare_signatures(ls1, ls2):
-    counter = 0.0
-    
+    diffs = 0.0
     for x in range(len(ls1.sig)):
         d = ls1.sig[x] - ls2.sig[x]
-        if abs(d) < 3:
-            counter += 1 
-    
-    return counter/len(ls1.sig)
-
-def get_hist(data, resolution):
-    max = 255.0
-    min = 0.0
-
-    hist = [0.0] * (resolution + 1)
-
-    for x in data:
-        mapped = (x - min) / max
-        slot = int(mapped * resolution)
-        if slot < 0 or slot > resolution:
-            print("SLOT OUT OF RANGE: %i, x is: %f" % (slot, x))
-        else:
-            hist[slot] += 1
-
-    return hist
-
-def match_hist(a, b):
-    diffs = 0.0
-    dcount = 0.0
-    d2count = 0.0
-    d3count = 0.0
-
-    for x in range(len(a)):
-        d = a[x] - b[x]
-
-        if abs(d) <= a[x] * 0.2:
-            dcount += 1.0
-        if abs(d) <= a[x] * 0.1:
-            d2count += 1.0
-        if abs(d) <= a[x] * 0.05:
-            d3count += 1.0
- 
-        #d3count += 1.0
         diffs += d**2
-
-    rms_err = math.sqrt(diffs)
-
-    pmatch = dcount / float(len(a))
-    p2match = d2count / float(len(a))
-    p3match = d3count / float(len(a))
-
-    print(pmatch, p2match, p3match)
-
-    return p2match
-
-def compare_angle_invariant(ls1, ls2):
-    resolution = 20
-    a = get_hist(ls1, resolution)
-    b = get_hist(ls2, resolution)
-    err = match_hist(a, b)
-    return err
     
+    return math.sqrt(diffs)
+    #dist = 0
+    #print "TODO:    You should implement the function that compares two signatures."
+    #return dist
 
 # This function characterizes the current location, and stores the obtained 
 # signature into the next available file.
@@ -172,7 +116,7 @@ def learn_location():
         print "Please remove some loc_%%.dat files.\n"
         return
 
-    ls = LocationSignature(180)
+    ls = LocationSignature(36)
     characterize_location(ls)
     signatures.save(ls,idx)
     print "STATUS:  Location " + str(idx) + " learned and saved."
@@ -186,34 +130,27 @@ def learn_location():
 #      actual characterization is the smallest.
 # 4.   Display the index of the recognized location on the screen
 def recognize_location():
-    ls_obs = LocationSignature(180);
+    ls_obs = LocationSignature();
     characterize_location(ls_obs);
 
     # FILL IN: COMPARE ls_read with ls_obs and find the best match
     for idx in range(signatures.size):
         print "STATUS:  Comparing signature " + str(idx) + " with the observed signature."
         ls_read = signatures.read(idx);
-
-        #match = compare_signatures(ls_obs, ls_read)
-        match = compare_angle_invariant(ls_obs.sig, ls_read.sig)
-        
-        if match > 0.85:
-            print "Location: waypoint", idx+1, "recognized"
-        print "percent match within 3cm: %0.2f" % (match)
-
+        dist    = compare_signatures(ls_obs, ls_read)
 
 # Prior to starting learning the locations, it should delete files from previous
 # learning either manually or by calling signatures.delete_loc_files(). 
 # Then, either learn a location, until all the locations are learned, or try to
 # recognize one of them, if locations have already been learned.
 
-signatures = SignatureContainer(10);
+signatures = SignatureContainer(5);
 #signatures.delete_loc_files()
-'''
+
 for i in range(5):
     print "learning location"
     learn_location();
-'''
+
     
     
 #recognize_location();
