@@ -125,13 +125,50 @@ class robolib:
         print("Turn DONE")
 
     def turn_poll(self, angledist):
+        c1 = 0.54
+        c2 = 0.795
         radist = angledist * 0.0174533
         results = []
 
-        a = self.interface.getMotorAngles(self.sonarmotor)[0][0]
-        self.interface.increaseMotorAngleReferences(self.sonarmotor, [-7.0])
-        mcount = 0
+        zero = self.interface.getMotorAngles(self.sonarmotor)[0][0]
+        self.interface.setMotorRotationSpeedReferences(self.sonarmotor,[-4])
 
+        zero_t = time.time()
+        angle = self.interface.getMotorAngles(self.sonarmotor)[0][0] - zero
+        curr_t = time.time() - zero_t
+
+        while angle < 6.28:
+            reading = self.readUltrasound()
+            angle = abs(self.interface.getMotorAngles(self.sonarmotor)[0][0] - zero)/c1
+            time.sleep(0.01)
+            #print(angle)
+            if (round(math.degrees(angle)) >= 0 and round(math.degrees(angle)) <= 360):
+                results.append([round(math.degrees(angle)),reading])
+        #print "hihi"
+        
+        
+        max_angle = angle
+        self.interface.setMotorRotationSpeedReferences(self.sonarmotor,[4])
+        time.sleep(1)
+        zero = self.interface.getMotorAngles(self.sonarmotor)[0][0]
+        #print max_angle - abs(self.interface.getMotorAngles(self.sonarmotor)[0][0] - zero)/c2
+        
+        while angle > 0:
+            reading = self.readUltrasound()
+            angle = max_angle - abs(self.interface.getMotorAngles(self.sonarmotor)[0][0] - zero)/c2
+            time.sleep(0.01)
+            #print(angle) 
+            if (round(math.degrees(angle)) >= 0 and round(math.degrees(angle)) <= 360):
+                results.append([round(math.degrees(angle)),reading])
+            
+        #self.interface.setMotorRotationSpeedReferences(self.sonarmotor,[0])
+        #print("angle = ",angle)
+        #print("zero = ",zero)
+        #print("diff = ", angle-zero)
+        #self.turn_sonar(-math.degrees(angle*c))
+        #self.interface.increaseMotorAngleReferences(self.sonarmotor,[angle-zero])
+    
+        '''
         while not self.interface.motorAngleReferencesReached(self.sonarmotor):
             na = self.interface.getMotorAngles(self.sonarmotor)[0][0]
             if abs(na - a) > radist and angledist * len(results) < 360:
@@ -145,7 +182,8 @@ class robolib:
 
         while not self.interface.motorAngleReferencesReached(self.sonarmotor):
             time.sleep(0.01)
-
+        '''
+        results.sort(key = lambda x: x[0])
         return results
         
     def turn_sonar(self, angle):

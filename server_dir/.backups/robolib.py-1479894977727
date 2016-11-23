@@ -1,0 +1,312 @@
+import brickpi
+import time
+import os
+import math
+import time
+def timer():
+    now = time.time()
+    return now
+
+class robolib:
+    def __init__(self):
+        self.interface=brickpi.Interface()
+        self.interface.initialize()
+
+        self.motors = [0,3] 
+        #TODO: CHANGE FOR SENSOR MOTOR
+        self.sonarmotor = [2]
+        self.touchsensors = [2,3]
+        self.speed = 1.0
+        self.interface.motorEnable(self.motors[0])
+        self.interface.motorEnable(self.motors[1])
+        self.interface.motorEnable(self.sonarmotor[0])
+        LEFTMOTORPARAMS = self.interface.MotorAngleControllerParameters()
+        LEFTMOTORPARAMS.maxRotationAcceleration = 6.0
+        LEFTMOTORPARAMS.minPWM = 18.0
+        LEFTMOTORPARAMS.maxRotationSpeed = 12.0
+        LEFTMOTORPARAMS.feedForwardGain = 255/20.0
+        LEFTMOTORPARAMS.pidParameters.minOutput = -255
+        LEFTMOTORPARAMS.pidParameters.maxOutput = 255
+        LEFTMOTORPARAMS.pidParameters.k_p = 456.0 
+        LEFTMOTORPARAMS.pidParameters.k_i = 350.0
+        LEFTMOTORPARAMS.pidParameters.K_d = 35.0
+        #LEFTMOTORPARAMS.pidParameters.k_p = 55.0 
+        #LEFTMOTORPARAMS.pidParameters.k_i = 150.0
+        #LEFTMOTORPARAMS.pidParameters.K_d = 10.0
+        RIGHTMOTORPARAMS = self.interface.MotorAngleControllerParameters()
+        RIGHTMOTORPARAMS.maxRotationAcceleration = 6.0
+        RIGHTMOTORPARAMS.minPWM = 18.0
+        RIGHTMOTORPARAMS.maxRotationSpeed = 12.0
+        RIGHTMOTORPARAMS.feedForwardGain = 255/20.0
+        RIGHTMOTORPARAMS.pidParameters.minOutput = -255
+        RIGHTMOTORPARAMS.pidParameters.maxOutput = 255
+        RIGHTMOTORPARAMS.pidParameters.k_p = 444.0
+        RIGHTMOTORPARAMS.pidParameters.k_i = 350.0
+        RIGHTMOTORPARAMS.pidParameters.K_d = 35.0
+        #RIGHTMOTORPARAMS.pidParameters.k_p = 50.0
+        #RIGHTMOTORPARAMS.pidParameters.k_i = 150.0
+        #RIGHTMOTORPARAMS.pidParameters.K_d = 10.0
+        ULTRAMOTORPARAMS = self.interface.MotorAngleControllerParameters()
+        ULTRAMOTORPARAMS.maxRotationAcceleration = 6.0
+        ULTRAMOTORPARAMS.minPWM = 18.0
+        ULTRAMOTORPARAMS.maxRotationSpeed = 12.0
+        ULTRAMOTORPARAMS.feedForwardGain = 255/20.0
+        ULTRAMOTORPARAMS.pidParameters.minOutput = -255
+        ULTRAMOTORPARAMS.pidParameters.maxOutput = 255
+        ULTRAMOTORPARAMS.pidParameters.k_p = 100.0
+        ULTRAMOTORPARAMS.pidParameters.k_i = 350.0
+        ULTRAMOTORPARAMS.pidParameters.K_d = 15.0
+        #ULTRAMOTORPARAMS.pidParameters.k_p = 50.0
+        #ULTRAMOTORPARAMS.pidParameters.k_i = 150.0
+        #ULTRAMOTORPARAMS.pidParameters.K_d = 10.0
+        self.interface.setMotorAngleControllerParameters(self.motors[0],LEFTMOTORPARAMS)
+        self.interface.setMotorAngleControllerParameters(self.motors[1],RIGHTMOTORPARAMS)
+        self.interface.setMotorAngleControllerParameters(self.sonarmotor[0],ULTRAMOTORPARAMS)
+        
+        self.right_ratio = 0.99
+        self.left_ratio  = 1.01
+
+        self.wheel_diam = 5.5
+        self.anti_lean_left = 1.008
+        self.anti_lean_right = 0.992
+        self.shaft_length = 13.6
+        
+        self.ultrasonicPort = 0
+        self.interface.sensorEnable(self.ultrasonicPort, brickpi.SensorType.SENSOR_ULTRASONIC);
+
+
+    def __del__(self):
+        self.interface.terminate()
+
+    def straight(self, distance):
+        angle = 2 * distance/self.wheel_diam
+        left_angle = angle * self.anti_lean_left
+        right_angle = angle * self.anti_lean_right
+          
+        end_time = distance/13
+        current_sec = 0
+        init_sec = timer()
+        time_diff = 0    
+        
+        self.interface.increaseMotorAngleReferences(self.motors,[left_angle,right_angle])  
+        while not (interface.motorAngleReferencesReached(self.motors) or time_diff  == end_time) :
+            motorAngles = interface.getMotorAngles(self.motors)
+            current_sec = timer()
+            time.sleep(0.1)
+            time_diff = current_sec-init_sec
+            if time_diff < 0 :
+                time_diff += 60
+    
+        print("Destination reached")
+
+        
+    def turn(self, angle):
+        angle /= 2
+        circumference = self.shaft_length * math.pi
+        turn_size = circumference * angle / 360
+        const_multip = 0.76
+        turn_size *= const_multip
+        self.interface.increaseMotorAngleReferences(self.motors,[-turn_size, turn_size])
+
+        end_time = angle/72
+        current_sec = 0
+        init_sec = timer()
+        time_diff = 0   
+        
+        while not (self.interface.motorAngleReferencesReached(self.motors) or time_diff  == end_time) :
+            motorAngles = self.interface.getMotorAngles(self.motors)
+            if motorAngles:
+                print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+            time.sleep(0.1)
+            current_sec = timer()
+            time_diff = current_sec-init_sec
+
+
+        print("Turn DONE")
+
+    def turn_poll(self, angledist):
+        radist = angledist * 0.0174533
+        results = []
+
+        zero = self.interface.getMotorAngles(self.sonarmotor)[0][0]
+        self.interface.setMotorRotationSpeedReferences(self.sonarmotor,[-7])
+
+        zero_t = time.time()
+        angle = self.interface.getMotorAngles(self.sonarmotor)[0][0] - zero
+        curr_t = time.time() - zero_t
+        
+        while angle > -3.14:
+            #reading = self.readUltrasound()
+            angle = self.interface.getMotorAngles(self.sonarmotor)[0][0] - zero
+            #results.append((angle, reading))
+            print("time:", curr_t, "angle = ", angle)
+            time.sleep(0.01)
+            curr_t = time.time() - zero_t
+            
+        self.interface.setMotorRotationSpeedReferences(self.sonarmotor,[0])
+            
+    
+        '''
+        while not self.interface.motorAngleReferencesReached(self.sonarmotor):
+            na = self.interface.getMotorAngles(self.sonarmotor)[0][0]
+            if abs(na - a) > radist and angledist * len(results) < 360:
+                measure = self.readUltrasound()
+                results.append(measure)
+                mcount += 1
+                time.sleep(0.01)
+                a = na
+
+        self.interface.increaseMotorAngleReferences(self.sonarmotor, [7.0])
+
+        while not self.interface.motorAngleReferencesReached(self.sonarmotor):
+            time.sleep(0.01)
+        '''
+        
+        return results
+        
+    def turn_sonar(self, angle):
+        const_multip = 1
+        turn_size = const_multip * math.radians(angle)
+        self.interface.increaseMotorAngleReferences(self.sonarmotor,[-turn_size])
+        
+        end_time = abs(float(angle)/10)
+        current_sec = 0
+        init_sec = timer()
+        time_diff = 0  
+
+        while not (self.interface.motorAngleReferencesReached(self.sonarmotor) or time_diff  >= end_time):
+            time.sleep(0.1)
+            current_sec = timer()
+            time_diff = current_sec-init_sec
+
+            
+        print("Sonar turn DONE")
+
+        
+    def turn_sonar_abs(self, absangle):
+        const_multip = 0.76
+        relangle = 100 #TODO - CALIBRATE relangle from absangle
+        relangle *= const_multip
+        
+        end_time = rel_angle/72
+        
+        
+        current_sec = 0
+        init_sec = timer()
+        time_diff = 0    
+        
+        self.interface.increaseMotorAngleReferences(self.sonarmotor,relangle)
+        while not (interface.motorAngleReferencesReached(self.sonarmotor) or time_diff  == end_time) :
+            motorAngles = interface.getMotorAngles(self.sonarmotor)
+            current_sec = timer()
+            time.sleep(0.1)
+            time_diff = current_sec-init_sec
+            if time_diff < 0 :
+                time_diff += 60
+    
+        print("Ultrasound Absolute Turn DONE")  
+        
+    def readUltrasound(self):
+        usReading = self.interface.getSensorValue(self.ultrasonicPort)
+
+        if usReading:
+            return usReading[0]
+        else:
+            print("Failed to read ultrasound")
+            return -1
+
+    def softstop(self):
+        self.interface.setMotorPwm(self.motors[0],0)
+        self.interface.setMotorPwm(self.motors[1],0)
+        time.sleep(1)
+        return
+
+        prevAngles = [0, 0]
+        while True:
+            motorAngles = self.interface.getMotorAngles(self.motors)
+            if motorAngles[0][0] - prevAngles[0] < 0:
+                return
+            else:
+                self.interface.setMotorAngleReferences(self.motors,[motorAngles[0][0],motorAngles[1][0]])
+                prevAngles = [motorAngles[0][0], motorAngles[1][0]]
+                time.sleep(0.1)
+    
+
+
+
+    def sense(self):
+        self.interface.sensorEnable(self.touchsensors[0], brickpi.SensorType.SENSOR_TOUCH)
+
+        self.interface.sensorEnable(self.touchsensors[1], brickpi.SensorType.SENSOR_TOUCH)
+        
+        straight_vals = [100 * self.left_ratio, 100 * self.right_ratio]
+        self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
+
+        time.sleep(0.1)
+        while True:
+            sensor_left = self.interface.getSensorValue(self.touchsensors[0])[0]
+            sensor_right = self.interface.getSensorValue(self.touchsensors[1])[0]
+
+            print("TOUCH: %s\t%s" % (sensor_left, sensor_right))
+            if sensor_left or sensor_right:
+                self.softstop()
+
+                self.straight(-30)
+                if sensor_left and sensor_right:
+                    print("Obstacle on BOTH sensors")
+                    self.turn(90)
+                elif sensor_left:
+                    print("OBSTACE ON THE LEFT")
+                    self.turn(45)
+                else:
+                    print("OBSTACE ON THE RIGHT")
+                    self.turn(-45)
+
+                self.interface.increaseMotorAngleReferences(self.motors,straight_vals)
+            
+
+            time.sleep(0.05)
+    
+    def ultrasound(self):
+        port = 2
+        dist = 30
+        tresh = 5
+        maxSpeed = 12.0
+        prevDists = [0] * 3 
+
+        self.interface.sensorEnable(port, brickpi.SensorType.SENSOR_ULTRASONIC);
+
+        while True:
+            sensorDist = self.interface.getSensorValue(port)[0]
+            #print("Distance: %i" % sensorDist)
+
+            if abs(sensorDist - dist) > tresh:
+                speed = (sensorDist - dist) * 0.08
+                
+                if speed > maxSpeed:
+                    speed = maxSpeed
+                elif speed < -maxSpeed:
+                    speed = -maxSpeed
+
+                #print("Speed: %f" % speed)
+
+                deviation = sum([(x - sensorDist)**2 for x in prevDists])/len(prevDists)
+                deviation = math.sqrt(deviation)
+                #print("Deviation: %f " % deviation)
+
+                #if deviation > 100.0 and sensorDist < (dist + tresh):
+                #    print("Triggering softStop")
+                #    self.softstop()
+                #else:
+
+                self.interface.setMotorRotationSpeedReferences(self.motors,[speed,speed])
+
+                del prevDists[0]
+                prevDists.append(sensorDist)
+
+            else:
+                #self.softstop()
+                self.interface.setMotorRotationSpeedReferences(self.motors,[0,0])
+                
+            time.sleep(0.1)
+

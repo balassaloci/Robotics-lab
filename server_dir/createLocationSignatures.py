@@ -154,6 +154,19 @@ def match_hist(a, b):
 
     return p2match
 
+
+def determine_angle_diff(ls1, ls2):
+    comps = []
+    highest = (0, 0)
+    for step in range(len(ls2)):
+        ls2_ = ls2[step + 1:] + ls2[:step]
+        matchfact = compare_signatures(ls1, ls2_)
+        if matchfact > highest[0]:
+            highest = (matchfact, step)
+    
+    return highest
+        
+    
 def compare_angle_invariant(ls1, ls2):
     resolution = 20
     a = get_hist(ls1, resolution)
@@ -194,6 +207,8 @@ def recognize_location():
         print "STATUS:  Comparing signature " + str(idx) + " with the observed signature."
         ls_read = signatures.read(idx);
 
+        print("Angle diff: ", determine_angle_diff(ls_obs.sig, ls_read.sig))
+        
         match = compare_signatures(ls_obs, ls_read)
         #match = compare_angle_invariant(ls_obs.sig, ls_read.sig)
         
