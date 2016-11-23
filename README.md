@@ -23,6 +23,8 @@
 
 ## TODOs for Object Finding Challenge
 - [X] Characterize location at n degree intervals **while** turning motor
+- [ ] Implement turn_poll using velocity function
+- [ ] Tune PID for all 3 motors
 - [ ] Get points of 3 bottles
 - [ ] Add square walls for 3 bottles
 - [ ] Boop bottle and move afterward
