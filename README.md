@@ -15,16 +15,21 @@
 + Made motor spin by 360 degrees, in increments of 10 degrees, and create signature of sonar scans from it
 + Created code to store location signature in .dat file
 
-18th Nov - Piotr, Bing, Loci, Ravi
+19th Nov - Piotr, Bing, Loci, Ravi
 + Compare signatures reliably
 + Create and compare a signature to a known signature **while** turning, at an n degree interval
+
+20th Nov - Bing, Loci, Ravi
++ Lost Hope
 
 --------------------------------------------
 
 ## TODOs for Object Finding Challenge
 - [X] Characterize location at n degree intervals **while** turning motor
-- [ ] Implement turn_poll using velocity function
-- [ ] Tune PID for all 3 motors
+- [X] Implement turn_poll using velocity function
+- [X] Tune PID for all 3 motors
+- [ ] Make signature comparison angle invariant
+- [ ] Reliably work out **where** obstacle is
 - [ ] Get points of 3 bottles
 - [ ] Add square walls for 3 bottles
 - [ ] Boop bottle and move afterward
