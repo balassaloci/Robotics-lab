@@ -25,8 +25,9 @@
 25th Nov - Bing, Loci, Piotr
 + Got fast_characterize_location to work more accurately
 + Learning location now does multiple fast scans
+ * Learning function has measurement for almost all angles from 0-359 in steps of 1 degree
  * Takes average of all non-255 readings for that specific angle
-  * Defaults to 255 if there are no non-255 readings present
+ * Defaults to 255 if there are no non-255 readings present
 + Implemented the code to locate bottles, yet to be tested
 
 --------------------------------------------
