@@ -22,6 +22,13 @@
 20th Nov - Bing, Loci, Ravi
 + Lost Hope
 
+25th Nov - Bing, Loci, Piotr
++ Got fast_characterize_location to work more accurately
++ Learning location now does multiple fast scans
+++ Takes average of all non-255 readings for that specific angle
+++ Defaults to 255 if there are no non-255 readings present
++ Implemented the code to locate bottles, yet to be tested
+
 --------------------------------------------
 
 ## TODOs for Object Finding Challenge
