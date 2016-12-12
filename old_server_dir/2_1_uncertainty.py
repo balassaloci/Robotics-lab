@@ -1,166 +1,27 @@
-import time
-import sys
-import random
-import robolib
-from math import sin, cos, radians, degrees, atan2, sqrt, pi
-
-bot = robolib.robolib()
-
-bot_pos = [100, 100, 0] # (x,y,theta)
-
-c = 0;
-
-
-
-# Mapping Functions
-###################################
-#constants used to map position to pixels
-CONV = 125.0/100.0 # conversion factor from distanec in mm into pixels
-ORIGIN = (210,610) # origin (0,0), +ve x to the right, +ve y upwards, +ve theta CCW
-###################################
-def mapPoint(pos):
-    return (ORIGIN[0] + pos[0]*CONV, ORIGIN[1] - pos[1]*CONV, -pos[2])
-
-def mapLine(line):
-    return tuple([ORIGIN[i%2]+(-1)**(i%2)* line[i%4]*CONV for i in range(len(line))]) 
-
-def mapDraw(point_list):  
-    line1 = mapLine((0,0,400,0)) 
-    line2 = mapLine((400,0,400,400))  
-    line3 = mapLine((400,400,0,400))
-    line4 = mapLine((0,400,0,0))
-
-    print_particles = [mapPoint(pos) for pos in point_list]
-    print "drawParticles: " + str(print_particles)
-    print "drawLine:" + str(line1)
-    print "drawLine:" + str(line2)
-    print "drawLine:" + str(line3)
-    print "drawLine:" + str(line4)
-###################################
-
-
-
-#Simulation Functions
-###################################
-def getRandomX():
-    return random.gauss(0.0, 0.1)
-
-def getRandomY():
-    return random.gauss(0.0, 0.1)
-
-def getRandomTheta(): 
-    return random.gauss(0.0, 1.0)
-
-def getStraightLine(botposition, dist):
-    x = botposition[0] + (dist + getRandomX()) * cos(radians(botposition[2]))
-    y = botposition[1] + (dist + getRandomY()) * sin(radians(botposition[2]))
-    theta = botposition[2] + getRandomTheta()
+def getStraightLine(bot_pos, dist):
+    old_x, old_y, old_theta = bot_pos
+    x = old_x + (dist + random.gauss(0.0, 0.1)) * cos(radians(old_theta))
+    y = old_y + (dist + random.gauss(0.0, 0.1)) * sin(radians(old_theta))
+    theta = old_theta + random.gauss(0.0, 0.1)
     return x, y, theta
 
-def getRotation(botposition, angle):
-    x = botposition[0]
-    y = botposition[1]
-    theta = botposition[2] - angle + getRandomTheta()
+def getRotation(bot_pos, angle):
+    old_x, old_y, old_theta = bot_pos
+    x = old_x
+    y = old_y
+    theta = old_theta - angle + random.gauss(0.0, 0.1)
     return x, y, theta
-
-def directionTo(current_location, destination):
-    dx = destination[0] - current_location[0]
-    dy = destination[1] - current_location[1]
-    angle = 2 * pi - atan2(dy, dx)
-    
-    if angle > pi:
-        angle -= 2 * pi
-    
-    
-    distance = sqrt(dx**2 + dy**2)
-    return (distance, degrees(angle) - current_location[2], angle)
-
-def navigateTo(measurements, destination):
-    print("Destination: " + str(destination))
-    
-    list_size = len(measurements)
-    weights = [1.0/list_size for _ in range(list_size)]
-    x = sum([measurements[i][0] * weights[i] for i in range(list_size)])
-    y = sum([measurements[i][1] * weights[i] for i in range(list_size)])
-    t = sum([measurements[i][2] * weights[i] for i in range(list_size)])
-
-    current_location = (x, y, t)
-    distance, angle, absangle = directionTo(current_location, destination)
-
-    after_turn = getRotation(current_location, angle)
-    back_home = getStraightLine(after_turn, distance)
-    
-    final_x = back_home[0] # x + cos(absangle) * distance
-    final_y = back_home[1] #y + sin(absangle) * distance
-    
-    line1 = (round(x, 5), round(y, 5), round(final_x, 5), round(final_y, 5))
-    print(str(line1))
-    print("drawLine:" + str(line1))
-    
-    print("Navigating from: %f %f\t\tTO: %f %f" % (x, y, final_x, final_y))
-    
-    bot.turn(angle)
-    bot.straight(distance)   
-    
-    return distance, angle
-
-
-def naviTest():
-    wayPoints = [(200, 150, 0), (200, 200, 180), (150, 200, 0), (150, 150, 0)]
-    
-    measurements = bunchOfEndpoints(bot_pos)
-
-    navigateTo(measurements, bot_pos)    
-    
-    current_pos = bot_pos
-    
-    for wayPoint in wayPoints:
-        distance, angle = navigateTo([current_pos], wayPoint)
-        current_pos = wayPoint
-        
-    print("Navigating back: dist: %f, angle: %f" % (distance, angle))
-
 
 def bunchOfEndpoints(bot_pos):
     all_particles = []
-    endpoints = []
-    
-    def simulate_square(bot_pos, save_endpoints = False):
-        bot_pos = getStraightLine(bot_pos, 10)
-        all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
-        all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
-        all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
-        all_particles.append(bot_pos)
-        bot_pos = getStraightLine(bot_pos, 10)
-        all_particles.append(bot_pos)
-        bot_pos = getRotation(bot_pos, -90)
-        all_particles.append(bot_pos)
-    
-        if save_endpoints:
-            endpoints.append(bot_pos)
-    
-        return bot_pos
-    
-    
     starting_pos = bot_pos
     for _ in range(20):
         bot_pos = starting_pos
         all_particles.append(starting_pos)
-        bot_pos = simulate_square(bot_pos)
-        bot_pos = simulate_square(bot_pos, True)
-    
-    #mapDraw(all_particles)
+        for _ in range(5):
+            bot_pos = getStraightLine(bot_pos, 10)
+            all_particles.append(bot_pos)
+        bot_pos = getRotation(bot_pos, -90)
+        all_particles.append(bot_pos)
+
     print("drawParticles:"  + str(all_particles))
-
-    return endpoints
-###################################
-
-#Main Function
-###################################
-naviTest()
-
-
-###################################
