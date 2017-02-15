@@ -36,12 +36,12 @@
 - [X] Characterize location at n degree intervals **while** turning motor
 - [X] Implement turn_poll using velocity function
 - [X] Tune PID for all 3 motors
-- [ ] Make signature comparison angle invariant
-- [ ] Reliably work out **where** obstacle is
-- [ ] Get points of 3 bottles
-- [ ] Add square walls for 3 bottles
-- [ ] Boop bottle and move afterward
-- [ ] Move between bottle positions and get back to Waypoint 1 using MCL
+- [X] Make signature comparison angle invariant
+- [X] Reliably work out **where** obstacle is
+- [X] Get points of 3 bottles
+- [X] Add square walls for 3 bottles
+- [X] Boop bottle and move afterward
+- [X] Move between bottle positions and get back to Waypoint 1 using MCL
 
 --------------------------------------------
 
