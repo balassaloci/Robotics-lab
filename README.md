@@ -1,3 +1,7 @@
+# GROUP PROJECT
+
+Group members: Ravi Woods, Piotr Pomienski, Chan Bingjie and myself
+
 # LOG EVERYTHING YOU DO HERE
 
 14th Nov - Piotr, Loci - Edited inital particleDataStructures.py to begin implementing likelihoods
